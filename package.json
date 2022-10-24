@@ -6,13 +6,14 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",
-    "prettier" :"prettier -write .",
+    "prettier": "prettier -write .",
     "lint": "next lint"
   },
   "keywords": [],
   "author": "Yu-Chih Chang",
   "license": "ISC",
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
