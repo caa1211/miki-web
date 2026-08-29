@@ -179,6 +179,11 @@ html[data-locale="en"] .service-hero h1 { font-family: var(--font-display-latin)
 .service-nav a + a { border-inline-start: 1px solid var(--color-border); }
 .service-nav a span { color: var(--color-cocoa); font-family: var(--font-display-latin); }
 .service-nav a[aria-current="page"] { color: var(--color-text); font-weight: 600; text-decoration: underline; text-underline-offset: .4em; }
+.service-tools { min-height: 3.5rem; display: flex; align-items: center; justify-content: flex-end; position: relative; }
+.service-share { min-height: 2.75rem; padding: 0; display: none; align-items: center; gap: .55rem; border: 0; background: transparent; color: var(--color-muted); cursor: pointer; font: inherit; font-size: .72rem; letter-spacing: .08em; text-underline-offset: .35em; }
+html[data-share-ready="true"] .service-share { display: inline-flex; }
+.service-share:hover { color: var(--color-text); text-decoration: underline; }
+.service-share__status { width: 1px; height: 1px; position: absolute; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .service-content { padding-block: clamp(6rem, 13vw, 12rem); }
 .service-editorial-break { width: min(88vw, 68rem); margin: clamp(2rem, 6vw, 6rem) 0 clamp(7rem, 13vw, 11rem) auto; }
 .service-editorial-break img { width: 100%; max-height: 46rem; display: block; object-fit: cover; aspect-ratio: 3 / 2; }

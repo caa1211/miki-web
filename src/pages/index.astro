@@ -4,17 +4,18 @@ import { locales } from '../i18n';
 import { content } from '../i18n/content';
 import { services, type ServiceKey } from '../i18n/services';
 import { siteConfig } from '../config/site';
+import { publicAsset } from '../utils/asset';
 
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const serviceImages: Record<ServiceKey, string> = {
-  waxing: `${baseUrl}${services.waxing.image.src}`,
-  intimateCare: `${baseUrl}${services.intimateCare.image.src}`,
-  areolaCare: `${baseUrl}${services.areolaCare.image.src}`,
+  waxing: publicAsset(services.waxing.image.src),
+  intimateCare: publicAsset(services.intimateCare.image.src),
+  areolaCare: publicAsset(services.areolaCare.image.src),
 };
-const homeHero = `${baseUrl}images/home/hero-campaign.jpg`;
-const productDetail = `${baseUrl}images/shared/skincare-products.jpg`;
-const serumHands = `${baseUrl}images/shared/serum-hands.jpg`;
-const closingSkin = `${baseUrl}images/home/closing-skin.jpg`;
+const homeHero = publicAsset('images/home/hero-campaign.jpg');
+const productDetail = publicAsset('images/shared/skincare-products.jpg');
+const serumHands = publicAsset('images/shared/serum-hands.jpg');
+const closingSkin = publicAsset('images/home/closing-skin.jpg');
 ---
 <BaseLayout>
   {locales.map((locale) => {

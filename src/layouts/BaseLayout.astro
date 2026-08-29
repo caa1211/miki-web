@@ -4,6 +4,7 @@ import { content } from '../i18n/content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import LocalizedText from '../components/LocalizedText.astro';
+import { publicAsset } from '../utils/asset';
 
 interface Props {
   title?: string;
@@ -15,7 +16,6 @@ interface Props {
 }
 const { title = content.zh.meta.title, description = content.zh.meta.description, localizedMeta } = Astro.props;
 const meta = localizedMeta ?? { zh: { title, description }, en: content.en.meta };
-const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const localeScript = `(() => {
   const params = new URLSearchParams(location.search);
   const locale = params.get('lang') === 'en' ? 'en' : 'zh';
@@ -48,7 +48,46 @@ const localeScript = `(() => {
       else link.removeAttribute('aria-current');
     });
   };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', localizeControls, { once: true }); else localizeControls();
+  const setupSharing = () => {
+    const copyUrl = async () => {
+      if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(location.href);
+      const field = document.createElement('textarea');
+      field.value = location.href;
+      field.setAttribute('readonly', '');
+      field.style.position = 'fixed';
+      field.style.opacity = '0';
+      document.body.append(field);
+      field.select();
+      document.execCommand('copy');
+      field.remove();
+    };
+    document.querySelectorAll('[data-share]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        try {
+          if (navigator.share) {
+            await navigator.share({ title: document.title, url: location.href });
+            return;
+          }
+          await copyUrl();
+          const label = button.querySelector('span');
+          const status = button.nextElementSibling;
+          const original = button.getAttribute('data-share-label');
+          const copied = button.getAttribute('data-share-copied');
+          if (label) label.textContent = copied;
+          if (status) status.textContent = copied;
+          window.setTimeout(() => {
+            if (label) label.textContent = original;
+            if (status) status.textContent = '';
+          }, 1800);
+        } catch (error) {
+          if (error?.name !== 'AbortError') console.error('Unable to share this page.', error);
+        }
+      });
+    });
+    root.dataset.shareReady = 'true';
+  };
+  const initialize = () => { localizeControls(); setupSharing(); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true }); else initialize();
 })();`;
 ---
 <!doctype html>
@@ -61,7 +100,7 @@ const localeScript = `(() => {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Sans+TC:wght@400;500;600&family=Noto+Serif+TC:wght@500;600&display=swap" />
-    <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+    <link rel="icon" type="image/svg+xml" href={publicAsset('favicon.svg')} />
     <title>{meta.zh.title}</title>
     <script is:inline set:html={localeScript}></script>
   </head>

@@ -21,6 +21,8 @@ https://<github-user>.github.io/<repo-name>/
 
 The workflow obtains the deployment origin and base path from `actions/configure-pages`, then passes them to Astro as `ASTRO_SITE` and `ASTRO_BASE`. No username or repository name is hardcoded.
 
+The workflow also passes the current commit SHA as `PUBLIC_ASSET_VERSION`. Replaceable files in `public/images/` keep stable filenames for easy editing, while their generated URLs receive a deployment-specific `?v=` value so browsers request the latest photography after each release.
+
 In the GitHub repository, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**.
 
 ### Custom domain later
