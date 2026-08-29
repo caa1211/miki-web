@@ -147,7 +147,7 @@ export const services: Record<ServiceKey, ServiceDefinition> = {
     slug: 'areola-care', variant: 'quiet',
     image: {
       src: 'images/services/areola-care-texture.webp', width: 1600, height: 2400,
-      alt: { zh: '手指取用少量白色乳霜的保養細節', en: 'Hand holding a small amount of white skincare cream' },
+      alt: { zh: '暖色背景下，雙手輕柔塗抹保養乳霜', en: 'Hands gently applying skincare cream against a warm neutral background' },
     },
     content: {
       zh: {
