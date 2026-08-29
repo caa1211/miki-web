@@ -18,6 +18,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
           <LocalizedText zh={item.name} en={serviceNavigation.en.items[index].name} />
         </a>
       ))}
+      <a href={`${baseUrl}cases`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.cases} en={content.en.nav.cases} /></a>
       <a href={`${baseUrl}about`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.about} en={content.en.nav.about} /></a>
     </nav>
     <div class="header-actions">
@@ -37,6 +38,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
               <LocalizedText zh={item.name} en={serviceNavigation.en.items[index].name} />
             </a>
           ))}
+          <a href={`${baseUrl}cases`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.cases} en={content.en.nav.cases} /></a>
           <a href={`${baseUrl}about`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.about} en={content.en.nav.about} /></a>
           <a href={`${baseUrl}faq`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.faq} en={content.en.nav.faq} /></a>
         </nav>

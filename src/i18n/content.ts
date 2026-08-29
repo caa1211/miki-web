@@ -17,7 +17,7 @@ export const content = {
   zh: {
     meta: { title: 'Mikami Studio｜女性專屬私密美肌專門', description: '新竹女性專屬熱蠟除毛、私密肌保養與乳暈美肌工作室。' },
     skipLink: '跳至主要內容', navLabel: '主要導覽',
-    nav: { services: '服務', about: '關於我們', faq: '常見問題', privacy: '隱私說明', booking: '預約', menu: '選單' },
+    nav: { services: '服務', cases: '案例分享', about: '關於我們', faq: '常見問題', privacy: '隱私說明', booking: '預約', menu: '選單' },
     languageLabel: '選擇語言', languageNames: { zh: '中文', en: 'EN' },
     home: {
       hero: { eyebrow: 'MIKAMI STUDIO · HSINCHU', title: '自在，從好好照顧自己開始。', intro: '女性專屬熱蠟除毛與私密美肌專門。在舒服、私密與彼此尊重的氛圍裡，讓每一次照顧都回到自己的需要。', explore: '探索服務', book: 'LINE 預約諮詢', imageAlt: '暖色自然光下手持保養品的女性肌膚形象' },
@@ -45,7 +45,7 @@ export const content = {
   },
   en: {
     meta: { title: 'Mikami Studio | Women’s Waxing & Intimate Skincare', description: 'A women-only waxing and intimate skincare studio in Hsinchu.' },
-    skipLink: 'Skip to main content', navLabel: 'Primary navigation', nav: { services: 'Services', about: 'About', faq: 'FAQ', privacy: 'Privacy', booking: 'Book', menu: 'Menu' },
+    skipLink: 'Skip to main content', navLabel: 'Primary navigation', nav: { services: 'Services', cases: 'Case Stories', about: 'About', faq: 'FAQ', privacy: 'Privacy', booking: 'Book', menu: 'Menu' },
     languageLabel: 'Choose language', languageNames: { zh: '中文', en: 'EN' },
     home: {
       hero: { eyebrow: 'MIKAMI STUDIO · HSINCHU', title: 'Care that begins with feeling at ease.', intro: 'A women-only studio for professional waxing and intimate skincare, approached with calm, privacy, and respect.', explore: 'Explore services', book: 'Consult on LINE', imageAlt: 'Woman holding skincare in warm, natural light' },
