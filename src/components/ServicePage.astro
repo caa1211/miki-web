@@ -2,12 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { locales } from '../i18n';
 import { services, serviceNavigation, type ServiceKey, type LocalizedService } from '../i18n/services';
+import { siteConfig } from '../config/site';
 
 interface Props { serviceKey: ServiceKey }
 const { serviceKey } = Astro.props;
 const service = services[serviceKey];
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const sectionsFor = (item: LocalizedService) => [item.overview, item.suitable, item.process, item.preparation, item.aftercare, ...(item.considerations ? [item.considerations] : [])];
+const editorialImages: Record<ServiceKey, { src: string; width: number; height: number; alt: Record<'zh' | 'en', string> }> = {
+  waxing: { src: 'images/shared/serum-hands.jpg', width: 1800, height: 1200, alt: { zh: '自然光下將保養精華滴在手部肌膚的細節', en: 'Hands applying skincare serum in soft natural light' } },
+  intimateCare: { src: 'images/home/closing-skin.jpg', width: 1800, height: 1200, alt: { zh: '自然光下柔和而真實的肩頸肌膚細節', en: 'Soft, natural shoulder and skin detail in window light' } },
+  areolaCare: { src: 'images/services/reserve/areola-care-usft-model-detail.webp', width: 1320, height: 1569, alt: { zh: 'USFT 養色技術於乳暈色彩模型上的細緻操作', en: 'USFT color-nourishing technique demonstrated on an areola color model' } },
+};
 ---
 <BaseLayout localizedMeta={{ zh: service.content.zh.meta, en: service.content.en.meta }}>
   {locales.map((locale) => {
@@ -21,21 +27,19 @@ const sectionsFor = (item: LocalizedService) => [item.overview, item.suitable, i
             <h1>{item.title}</h1>
             <p class="service-lead">{item.lead}</p>
           </div>
-          <div class="service-hero__mark" aria-hidden="true"><span>{item.label}</span></div>
+          <figure class="service-image">
+            <img
+              src={`${baseUrl}${service.image.src}`}
+              width={service.image.width}
+              height={service.image.height}
+              alt={service.image.alt[locale]}
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+            <figcaption><span>{item.number}</span><span>{item.label}</span></figcaption>
+          </figure>
         </header>
-
-        <figure class="service-image page-shell">
-          <img
-            src={`${baseUrl}${service.image.src}`}
-            width={service.image.width}
-            height={service.image.height}
-            alt={service.image.alt[locale]}
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
-          <figcaption><span>{item.number}</span><span>{item.label}</span></figcaption>
-        </figure>
 
         <nav class="service-nav page-shell" aria-label={serviceNavigation[locale].label}>
           {serviceNavigation[locale].items.map((navItem) => (
@@ -47,14 +51,22 @@ const sectionsFor = (item: LocalizedService) => [item.overview, item.suitable, i
 
         <div class="service-content page-shell">
           {sectionsFor(item).map((section, index) => (
-            <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'service-section--opening' : 'service-section--detail'}`}>
-              <div class="service-section__label"><span>{String(index + 1).padStart(2, '0')}</span><p>{section.eyebrow}</p></div>
-              <div class="service-section__body">
-                <h2>{section.title}</h2>
-                {section.body.map((paragraph) => <p>{paragraph}</p>)}
-                {section.points && <ul>{section.points.map((point) => <li>{point}</li>)}</ul>}
-              </div>
-            </section>
+            <>
+              <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'service-section--opening' : 'service-section--detail'}`}>
+                <div class="service-section__label"><span>{String(index + 1).padStart(2, '0')}</span><p>{section.eyebrow}</p></div>
+                <div class="service-section__body">
+                  <h2>{section.title}</h2>
+                  {section.body.map((paragraph) => <p>{paragraph}</p>)}
+                  {section.points && <ul>{section.points.map((point) => <li>{point}</li>)}</ul>}
+                </div>
+              </section>
+              {index === 1 && (
+                <figure class="service-editorial-break">
+                  <img src={`${baseUrl}${editorialImages[serviceKey].src}`} width={editorialImages[serviceKey].width} height={editorialImages[serviceKey].height} alt={editorialImages[serviceKey].alt[locale]} loading="lazy" decoding="async" />
+                  <figcaption><span>{item.number}</span><span>MIKAMI STUDIO · HSINCHU</span></figcaption>
+                </figure>
+              )}
+            </>
           ))}
         </div>
 
@@ -73,6 +85,7 @@ const sectionsFor = (item: LocalizedService) => [item.overview, item.suitable, i
           <p class="service-kicker">{item.closing.eyebrow}</p>
           <h2>{item.closing.title}</h2>
           <p>{item.closing.body}</p>
+          <a class="primary-link" href={siteConfig.lineUrl}><span data-copy="zh">LINE 預約諮詢</span><span data-copy="en" lang="en">Consult on LINE</span><span aria-hidden="true">→</span></a>
         </section>
       </article>
     );

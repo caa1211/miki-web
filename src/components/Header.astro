@@ -8,7 +8,10 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
 ---
 <header class="site-header">
   <div class="site-header__inner page-shell">
-    <a class="wordmark" href={baseUrl} data-preserve-query data-site-link aria-label={`${siteConfig.brandName} home`}>{siteConfig.brandName}</a>
+    <a class="wordmark" href={baseUrl} data-preserve-query data-site-link aria-label={`${siteConfig.brandName} home`}>
+      <span class="wordmark__name">{siteConfig.brandName}</span>
+      <span class="wordmark__descriptor" aria-hidden="true">WAXING · INTIMATE SKINCARE</span>
+    </a>
     <nav class="primary-nav" aria-label={content.zh.navLabel} data-aria-zh={content.zh.navLabel} data-aria-en={content.en.navLabel}>
       {serviceNavigation.zh.items.map((item, index) => (
         <a href={`${baseUrl}${services[item.key].slug}`} data-preserve-query data-site-link>
@@ -20,9 +23,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
       <LanguageSwitcher />
       {siteConfig.bookingUrl ? (
         <a class="header-booking" href={siteConfig.bookingUrl}><LocalizedText zh={content.zh.nav.booking} en={content.en.nav.booking} /><span aria-hidden="true">→</span></a>
-      ) : (
-        <span class="booking-placeholder" aria-disabled="true"><LocalizedText zh={content.zh.nav.booking} en={content.en.nav.booking} /></span>
-      )}
+      ) : null}
       <details class="mobile-nav">
         <summary><LocalizedText zh={content.zh.nav.menu} en={content.en.nav.menu} /><span aria-hidden="true"></span></summary>
         <nav class="mobile-nav__panel" aria-label={content.zh.navLabel} data-aria-zh={content.zh.navLabel} data-aria-en={content.en.navLabel}>

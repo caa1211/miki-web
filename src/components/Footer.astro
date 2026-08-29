@@ -6,7 +6,19 @@ import LocalizedText from './LocalizedText.astro';
 ---
 <footer class="site-footer">
   <div class="page-shell site-footer__inner">
-    <div><p class="wordmark">{siteConfig.brandName}</p><p class="footer-description"><LocalizedText zh={content.zh.footer} en={content.en.footer} /></p></div>
-    <LanguageSwitcher />
+    <div>
+      <p class="wordmark">{siteConfig.brandName}</p>
+      <p class="footer-description"><LocalizedText zh={content.zh.footer} en={content.en.footer} /></p>
+      <address>{siteConfig.address}<br /><a href={`tel:${siteConfig.phone}`}>0910 018 323</a></address>
+    </div>
+    <div class="footer-contact">
+      <nav aria-label="Social media">
+        <a href={siteConfig.lineUrl}>LINE</a>
+        {siteConfig.instagramUrl && <a href={siteConfig.instagramUrl}>Instagram</a>}
+        {siteConfig.threadsUrl && <a href={siteConfig.threadsUrl}>Threads</a>}
+        <a href={`tel:${siteConfig.phone}`}>Tel</a>
+      </nav>
+      <LanguageSwitcher />
+    </div>
   </div>
 </footer>

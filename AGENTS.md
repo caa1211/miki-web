@@ -297,3 +297,28 @@ For major work:
 
 Do not redesign unrelated parts of the website while implementing a focused
 task.
+
+
+## Client-side JavaScript
+
+Client-side JavaScript is allowed.
+
+Use JavaScript when it meaningfully improves:
+
+- language switching
+- navigation
+- sharing
+- interaction
+- motion
+- visual polish
+- progressive enhancement
+
+Prefer lightweight, focused JavaScript.
+
+Do not avoid JavaScript purely for the sake of achieving a zero-JS bundle.
+
+Avoid unnecessary SPA architecture, large client-side frameworks,
+or heavy dependencies when simpler browser APIs are sufficient.
+
+React is not forbidden, but should only be introduced when there is a clear
+benefit over Astro and native browser APIs.

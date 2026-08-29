@@ -11,6 +11,10 @@ const serviceImages: Record<ServiceKey, string> = {
   intimateCare: `${baseUrl}${services.intimateCare.image.src}`,
   areolaCare: `${baseUrl}${services.areolaCare.image.src}`,
 };
+const homeHero = `${baseUrl}images/home/hero-campaign.jpg`;
+const productDetail = `${baseUrl}images/shared/skincare-products.jpg`;
+const serumHands = `${baseUrl}images/shared/serum-hands.jpg`;
+const closingSkin = `${baseUrl}images/home/closing-skin.jpg`;
 ---
 <BaseLayout>
   {locales.map((locale) => {
@@ -22,11 +26,14 @@ const serviceImages: Record<ServiceKey, string> = {
             <p class="editorial-label">{item.hero.eyebrow}</p>
             <h1 id={`home-title-${locale}`}>{item.hero.title}</h1>
             <p class="home-hero__intro">{item.hero.intro}</p>
-            <a class="text-link" href={`#services-${locale}`}>{item.hero.explore}<span aria-hidden="true">↘</span></a>
+            <div class="home-hero__actions">
+              <a class="primary-link" href={siteConfig.lineUrl}>{item.hero.book}<span aria-hidden="true">→</span></a>
+              <a class="text-link" href={`#services-${locale}`}>{item.hero.explore}<span aria-hidden="true">↘</span></a>
+            </div>
           </div>
           <figure class="home-hero__image">
-            <img src={serviceImages.waxing} width={services.waxing.image.width} height={services.waxing.image.height} alt={item.hero.imageAlt} loading="eager" fetchpriority="high" decoding="async" />
-            <figcaption><span>01</span><span>SKIN · CARE · COMFORT</span></figcaption>
+            <img src={homeHero} width="640" height="640" alt={item.hero.imageAlt} loading="eager" fetchpriority="high" decoding="async" />
+            <figcaption><span>MIKAMI / 01</span><span>PRIVATE · PROFESSIONAL · FOR WOMEN</span></figcaption>
           </figure>
         </header>
 
@@ -65,7 +72,7 @@ const serviceImages: Record<ServiceKey, string> = {
         </section>
 
         <figure class="visual-break">
-          <img src={serviceImages.intimateCare} width={services.intimateCare.image.width} height={services.intimateCare.image.height} alt={item.visual.alt} loading="lazy" decoding="async" />
+          <img src={productDetail} width="1536" height="1024" alt={item.visual.alt} loading="lazy" decoding="async" />
           <figcaption class="page-shell">
             <span class="editorial-label">{item.visual.label}</span>
             <p>{item.visual.caption}</p>
@@ -78,11 +85,31 @@ const serviceImages: Record<ServiceKey, string> = {
             <h2 id={`philosophy-title-${locale}`}>{item.philosophy.title}</h2>
             <p>{item.philosophy.intro}</p>
           </div>
+          <figure class="philosophy__detail" aria-hidden="true">
+            <img src={serumHands} width="1800" height="1200" alt="" loading="lazy" decoding="async" />
+          </figure>
           <ol class="philosophy__values">
             {item.philosophy.values.map((value) => (
               <li><span aria-hidden="true">{value.number}</span><div><h3>{value.title}</h3><p>{value.body}</p></div></li>
             ))}
           </ol>
+        </section>
+
+        <section class="expertise page-shell" aria-labelledby={`expertise-title-${locale}`}>
+          <div class="expertise__heading">
+            <p class="editorial-label">{item.expertise.eyebrow}</p>
+            <h2 id={`expertise-title-${locale}`}>{item.expertise.title}</h2>
+            <p>{item.expertise.intro}</p>
+          </div>
+          <div class="expertise__list">
+            {item.expertise.items.map((credential, index) => (
+              <a href={siteConfig.credentials[credential.key as keyof typeof siteConfig.credentials]} target="_blank" rel="noreferrer">
+                <span class="expertise__index">0{index + 1}</span>
+                <span><small>{credential.label}</small><strong>{credential.title}</strong><em>{credential.body}</em></span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </div>
         </section>
 
         <section class="home-faq" id={`questions-${locale}`} aria-labelledby={`home-faq-title-${locale}`}>
@@ -99,16 +126,15 @@ const serviceImages: Record<ServiceKey, string> = {
           </div>
         </section>
 
-        <section class="home-closing page-shell" aria-labelledby={`closing-title-${locale}`}>
-          <p class="editorial-label">{item.closing.eyebrow}</p>
-          <h2 id={`closing-title-${locale}`}>{item.closing.title}</h2>
-          <div class="home-closing__footer">
-            <p>{item.closing.body}</p>
-            {siteConfig.bookingUrl ? (
+        <section class="home-closing" aria-labelledby={`closing-title-${locale}`}>
+          <figure><img src={closingSkin} width="1800" height="1200" alt={item.closing.imageAlt} loading="lazy" decoding="async" /></figure>
+          <div class="home-closing__copy">
+            <p class="editorial-label">{item.closing.eyebrow}</p>
+            <h2 id={`closing-title-${locale}`}>{item.closing.title}</h2>
+            <div class="home-closing__footer">
+              <p>{item.closing.body}</p>
               <a class="primary-link" href={siteConfig.bookingUrl}>{item.closing.action}<span aria-hidden="true">→</span></a>
-            ) : (
-              <span class="booking-unavailable">{item.closing.unavailable}</span>
-            )}
+            </div>
           </div>
         </section>
       </article>
