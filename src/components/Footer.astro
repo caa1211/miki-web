@@ -3,16 +3,20 @@ import { content } from '../i18n/content';
 import { siteConfig } from '../config/site';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import LocalizedText from './LocalizedText.astro';
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
 <footer class="site-footer">
   <div class="page-shell site-footer__inner">
     <div>
       <p class="wordmark">{siteConfig.brandName}</p>
       <p class="footer-description"><LocalizedText zh={content.zh.footer} en={content.en.footer} /></p>
-      <address>{siteConfig.address}<br /><a href={`tel:${siteConfig.phone}`}>0910 018 323</a></address>
+      <address>{siteConfig.address}<br /><a href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a></address>
     </div>
     <div class="footer-contact">
-      <nav aria-label="Social media">
+      <nav aria-label="Footer navigation">
+        <a href={`${baseUrl}about`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.about} en={content.en.nav.about} /></a>
+        <a href={`${baseUrl}faq`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.faq} en={content.en.nav.faq} /></a>
+        <a href={`${baseUrl}privacy`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.privacy} en={content.en.nav.privacy} /></a>
         <a href={siteConfig.lineUrl}>LINE</a>
         {siteConfig.instagramUrl && <a href={siteConfig.instagramUrl}>Instagram</a>}
         {siteConfig.threadsUrl && <a href={siteConfig.threadsUrl}>Threads</a>}

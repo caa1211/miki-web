@@ -4,8 +4,9 @@ export const siteConfig = {
   lineUrl: 'https://lin.ee/1K1Kh6a',
   instagramUrl: '',
   threadsUrl: '',
-  phone: '+886910018323',
-  address: '新竹市東區民權路24巷11號2樓',
+  phone: '+886919103591',
+  phoneDisplay: '0919 103 591',
+  address: '新竹市中華路二段162巷22號',
   credentials: {
     lycon: 'https://lycon.com.au/',
     italwax: 'https://www.italwaxitalia.it/',

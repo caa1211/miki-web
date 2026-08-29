@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { faqPageContent } from '../i18n/pages';
+import { services } from '../i18n/services';
+import { siteConfig } from '../config/site';
+const locales = ['zh', 'en'] as const;
+const serviceKeys = ['waxing', 'intimateCare', 'areolaCare'] as const;
+---
+<BaseLayout localizedMeta={{ zh: faqPageContent.zh.meta, en: faqPageContent.en.meta }}>
+  {locales.map((locale) => {
+    const copy = faqPageContent[locale];
+    const groups = [
+      ...serviceKeys.map((key) => ({ title: services[key].content[locale].faqTitle, items: services[key].content[locale].faqs })),
+      copy.before,
+      copy.after,
+    ];
+    return (
+      <article class="faq-index-page" data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
+        <header class="text-hero page-shell"><p class="eyebrow">{copy.eyebrow}</p><h1>{copy.title}</h1><p class="editorial-lead">{copy.lead}</p></header>
+        <div class="faq-directory page-shell">
+          <nav aria-label={copy.groupLabel}>{groups.map((group, index) => <a href={`#faq-${locale}-${index + 1}`}>{String(index + 1).padStart(2, '0')} <span>{group.title}</span></a>)}</nav>
+          <div class="faq-groups">
+            {groups.map((group, index) => (
+              <section id={`faq-${locale}-${index + 1}`}>
+                <header><span>{String(index + 1).padStart(2, '0')}</span><h2>{group.title}</h2></header>
+                <div class="faq-list">{group.items.map((item) => <details><summary>{item.question}<span aria-hidden="true"></span></summary><p>{item.answer}</p></details>)}</div>
+              </section>
+            ))}
+          </div>
+        </div>
+        <section class="faq-contact page-shell"><p>{copy.contact}</p><a class="primary-link" href={siteConfig.lineUrl}>LINE <span aria-hidden="true">→</span></a></section>
+      </article>
+    );
+  })}
+</BaseLayout>

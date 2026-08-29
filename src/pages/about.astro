@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { aboutContent } from '../i18n/pages';
+import { siteConfig } from '../config/site';
+import { publicAsset } from '../utils/asset';
+const locales = ['zh', 'en'] as const;
+---
+<BaseLayout localizedMeta={{ zh: aboutContent.zh.meta, en: aboutContent.en.meta }}>
+  {locales.map((locale) => {
+    const copy = aboutContent[locale];
+    return (
+      <article class="about-page" data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
+        <header class="editorial-hero page-shell">
+          <div class="editorial-hero__copy">
+            <p class="eyebrow">{copy.eyebrow}</p>
+            <h1>{copy.title}</h1>
+            <p class="editorial-lead">{copy.lead}</p>
+          </div>
+          <figure class="editorial-hero__image"><img src={publicAsset('images/home/hero-campaign.jpg')} width="1200" height="1200" alt={copy.alts.hero} /></figure>
+        </header>
+
+        <section class="about-manifesto page-shell">
+          <div class="about-manifesto__copy">
+            <p class="eyebrow">{copy.philosophy.eyebrow}</p>
+            <h2>{copy.philosophy.title}</h2>
+            {copy.philosophy.body.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <figure><img src={publicAsset('images/shared/serum-hands.jpg')} width="1800" height="1200" loading="lazy" alt={copy.alts.detail} /></figure>
+        </section>
+
+        <section class="about-values page-shell" aria-label={copy.philosophy.eyebrow}>
+          {copy.values.map((value) => <article><span>{value.number}</span><h2>{value.title}</h2><p>{value.body}</p></article>)}
+        </section>
+
+        <section class="about-experience">
+          <figure><img src={publicAsset('images/shared/skincare-products.jpg')} width="1800" height="1200" loading="lazy" alt={copy.alts.still} /></figure>
+          <div class="about-experience__copy">
+            <p class="eyebrow">{copy.experience.eyebrow}</p><h2>{copy.experience.title}</h2>
+            {copy.experience.body.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </section>
+
+        <section class="editorial-closing page-shell">
+          <p class="eyebrow">{copy.closing.eyebrow}</p><h2>{copy.closing.title}</h2><p>{copy.closing.body}</p>
+          <a class="primary-link" href={siteConfig.lineUrl}>{copy.closing.action}<span aria-hidden="true">→</span></a>
+        </section>
+      </article>
+    );
+  })}
+</BaseLayout>

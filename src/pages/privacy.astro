@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { privacyContent } from '../i18n/pages';
+import { siteConfig } from '../config/site';
+const locales = ['zh', 'en'] as const;
+---
+<BaseLayout localizedMeta={{ zh: privacyContent.zh.meta, en: privacyContent.en.meta }}>
+  {locales.map((locale) => {
+    const copy = privacyContent[locale];
+    return (
+      <article class="privacy-page" data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
+        <header class="text-hero page-shell"><p class="eyebrow">{copy.eyebrow}</p><h1>{copy.title}</h1><p class="editorial-lead">{copy.lead}</p><p class="privacy-updated">{copy.updated}</p></header>
+        <div class="privacy-body page-shell">
+          {copy.sections.map((section, index) => <section><span>{String(index + 1).padStart(2, '0')}</span><div><h2>{section.title}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}{section.items && <ul>{section.items.map((item) => <li>{item}</li>)}</ul>}</div></section>)}
+          <section><span>{String(copy.sections.length + 1).padStart(2, '0')}</span><div><h2>{copy.contactTitle}</h2><address>{siteConfig.brandName}<br />{siteConfig.address}<br /><a href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a><br /><a href={siteConfig.lineUrl}>LINE</a></address></div></section>
+        </div>
+      </article>
+    );
+  })}
+</BaseLayout>
