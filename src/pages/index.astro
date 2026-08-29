@@ -24,6 +24,7 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
       <article class="home-page" data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
         <header class="home-hero page-shell" aria-labelledby={`home-title-${locale}`}>
           <div class="home-hero__copy" data-reveal="hero-copy">
+            <p class="home-hero__wordmark" aria-hidden="true">MIKAMI STUDIO</p>
             <p class="editorial-label">{item.hero.eyebrow}</p>
             <h1 id={`home-title-${locale}`}>{item.hero.title}</h1>
             <p class="home-hero__intro">{item.hero.intro}</p>

@@ -1,6 +1,6 @@
 # Design System
 
-Status: Initial design direction
+Status: Active production direction
 
 This document defines the initial visual and UX direction for the website.
 
@@ -33,6 +33,22 @@ The visitor should feel:
 rather than:
 
 > "This website is trying hard to sell beauty treatments to me."
+
+## Applied Art Direction: Veiled Peony
+
+The production expression of Quiet Confidence is **Veiled Peony**: a soft, low-chroma evolution of the editorial system that feels feminine and private without becoming decorative or salon-like.
+
+It should be recognizable through:
+
+- powder-peony, muted rose, and deep aubergine-cocoa surfaces
+- restrained serif-led hierarchy
+- generous, deliberate whitespace
+- editorial image crops with softly muted color and selective translucent veil treatments
+- fine rules and small typographic labels
+- flat, understated calls to action
+- asymmetrical but calm compositions
+
+The veil treatment belongs primarily to hero photography and occasional image-led moments. It must not sit behind body copy or reduce legibility. Luxury should come from proportion, material tone, typography, and restraint—not ornament, visual effects, or status-signaling language.
 
 ---
 
@@ -107,9 +123,9 @@ These colors are starting points and may be refined after UI/UX research.
 
 ## Canvas
 
-`#FAF7F2`
+`#F7EDEF`
 
-Warm ivory.
+Powder ivory with a restrained peony undertone.
 
 Primary page background.
 
@@ -117,7 +133,7 @@ Primary page background.
 
 ## Warm Surface
 
-`#F3ECE6`
+`#EAD8DA`
 
 Used sparingly to create section separation.
 
@@ -125,7 +141,7 @@ Used sparingly to create section separation.
 
 ## Soft Rose
 
-`#C89B91`
+`#A87981`
 
 Primary feminine accent.
 
@@ -133,9 +149,39 @@ Should be restrained rather than dominant.
 
 ---
 
+## Peony Pink
+
+`#C98E99`
+
+The strongest pink in the active palette. Use selectively for primary booking actions with dark cocoa text.
+
+Do not use as normal-sized text on light surfaces.
+
+---
+
+## Dusty Pink
+
+`#D3B4B8`
+
+A secondary accent for fine rules, underlines, and decorative states.
+
+Do not use for normal-sized text on light surfaces because it does not reach WCAG AA contrast there.
+
+---
+
+## Blush Surface
+
+`#F2E2E3`
+
+A pale pink surface used selectively for FAQ fields, hover states, and quiet section contrast.
+
+Pair with primary or cocoa text; do not let it replace the warm neutral foundation.
+
+---
+
 ## Deep Rose
 
-`#9C7068`
+`#69464D`
 
 Potential interactive or stronger accent.
 
@@ -145,7 +191,7 @@ Contrast must be verified before use for text.
 
 ## Cocoa
 
-`#5A4741`
+`#5B4347`
 
 Warm secondary dark tone.
 
@@ -153,7 +199,7 @@ Warm secondary dark tone.
 
 ## Primary Text
 
-`#292522`
+`#3F3033`
 
 Primary typography.
 
@@ -161,7 +207,7 @@ Primary typography.
 
 ## Muted Text
 
-`#746B67`
+`#725B60`
 
 Secondary content.
 
@@ -171,7 +217,7 @@ Contrast must remain accessible.
 
 ## Border
 
-`#DDD4CE`
+`#D8BFC2`
 
 Subtle separators and controls.
 

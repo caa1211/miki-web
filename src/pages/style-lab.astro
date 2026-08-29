@@ -1,0 +1,615 @@
+---
+import { content } from '../i18n/content';
+import { siteConfig } from '../config/site';
+import { publicAsset } from '../utils/asset';
+
+const heroImage = publicAsset('images/home/hero-campaign.jpg');
+const concepts = [
+  { id: 'quiet', number: '01', name: 'Quiet Luxury Editorial' },
+  { id: 'romantic', number: '02', name: 'Neo Romantic' },
+  { id: 'dusty-atelier', number: '03', name: 'Dusty Rose Atelier' },
+  { id: 'tea-rose', number: '04', name: 'Tea Rose Minimal' },
+  { id: 'blush-collage', number: '05', name: 'Blush Paper Collage' },
+  { id: 'quiet-rose', number: '06', name: 'Quiet Rose Editorial' },
+  { id: 'romantic-atelier', number: '07', name: 'Muted Romantic Atelier' },
+  { id: 'tea-luxury', number: '08', name: 'Tea Rose Luxury' },
+  { id: 'dusty-paper', number: '09', name: 'Dusty Paper Editorial' },
+  { id: 'romantic-minimal', number: '10', name: 'Romantic Minimal' },
+  { id: 'blush-atelier', number: '11', name: 'Blush Atelier' },
+  { id: 'veiled-peony', number: '12', name: 'Veiled Peony' },
+  { id: 'french-journal', number: '13', name: 'French Rose Journal' },
+  { id: 'powder-mono', number: '14', name: 'Powder Monochrome' },
+  { id: 'midnight-rose', number: '15', name: 'Midnight Rose' },
+  { id: 'love-letter', number: '16', name: 'Antique Love Letter' },
+] as const;
+
+const localeScript = `(() => {
+  const locale = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh';
+  document.documentElement.dataset.locale = locale;
+  document.documentElement.lang = locale === 'en' ? 'en' : 'zh-Hant-TW';
+  document.title = locale === 'en' ? 'Style Lab | Mikami Studio' : '視覺風格實驗室｜Mikami Studio';
+  document.querySelectorAll('[data-language-link]').forEach((link) => {
+    const url = new URL(location.href);
+    const next = link.getAttribute('data-language-link');
+    url.searchParams.set('lang', next);
+    link.setAttribute('href', url.pathname + url.search + url.hash);
+    if (next === locale) link.setAttribute('aria-current', 'true');
+  });
+  document.querySelectorAll('[data-hero-image]').forEach((image) => {
+    image.setAttribute('alt', image.getAttribute(locale === 'en' ? 'data-alt-en' : 'data-alt-zh'));
+  });
+})();`;
+---
+
+<!doctype html>
+<html lang="zh-Hant-TW" data-locale="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Mikami Studio temporary hero art direction exploration." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500;600&display=swap" />
+    <title>視覺風格實驗室｜Mikami Studio</title>
+    <script is:inline set:html={localeScript}></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#concepts"><span data-copy="zh">跳至設計提案</span><span data-copy="en">Skip to concepts</span></a>
+
+    <header class="lab-header">
+      <div>
+        <p>MIKAMI STUDIO / STYLE LAB</p>
+        <span data-copy="zh">臨時視覺探索 · 不公開於網站導覽</span>
+        <span data-copy="en">Temporary visual exploration · Not in site navigation</span>
+      </div>
+      <nav aria-label="Language">
+        <a href="?lang=zh" data-language-link="zh">中文</a>
+        <a href="?lang=en" data-language-link="en">EN</a>
+      </nav>
+    </header>
+
+    <nav class="theme-nav" aria-label="Theme navigation">
+      <span data-copy="zh">選擇主題</span><span data-copy="en">Browse themes</span>
+      <div>
+        {concepts.map((concept) => (
+          <a href={`#${concept.id}`}><b>{concept.number}</b>{concept.name}</a>
+        ))}
+      </div>
+    </nav>
+
+    <main id="concepts">
+      {concepts.map((concept) => (
+        <section id={concept.id} class={`concept concept--${concept.id}`} aria-labelledby={`concept-${concept.id}`}>
+          <header class="concept-label">
+            <span>{concept.number}</span>
+            <h2 id={`concept-${concept.id}`}>{concept.name}</h2>
+          </header>
+
+          <div class="hero">
+            <div class="hero__copy">
+              <p class="brand">MIKAMI STUDIO</p>
+              <p class="eyebrow">
+                <span data-copy="zh">{content.zh.home.hero.eyebrow}</span>
+                <span data-copy="en">{content.en.home.hero.eyebrow}</span>
+              </p>
+              <h3>
+                <span data-copy="zh">{content.zh.home.hero.title}</span>
+                <span data-copy="en">{content.en.home.hero.title}</span>
+              </h3>
+              <p class="intro">
+                <span data-copy="zh">{content.zh.home.hero.intro}</span>
+                <span data-copy="en">{content.en.home.hero.intro}</span>
+              </p>
+              <a class="cta" href={siteConfig.lineUrl}>
+                <span data-copy="zh">{content.zh.home.hero.book}</span>
+                <span data-copy="en">{content.en.home.hero.book}</span>
+                <i aria-hidden="true">→</i>
+              </a>
+            </div>
+            <figure class="hero__image">
+              <img
+                src={heroImage}
+                width="1200"
+                height="1200"
+                loading={concept.number === '01' ? 'eager' : 'lazy'}
+                alt={content.zh.home.hero.imageAlt}
+                data-hero-image
+                data-alt-zh={content.zh.home.hero.imageAlt}
+                data-alt-en={content.en.home.hero.imageAlt}
+              />
+            </figure>
+            <span class="decoration" aria-hidden="true"></span>
+          </div>
+        </section>
+      ))}
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root { color-scheme: light; font-family: "Noto Sans TC", sans-serif; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; min-width: 320px; background: #eeeae4; color: #201e1c; }
+  img { max-width: 100%; }
+  a { color: inherit; }
+  [data-copy="en"] { display: none; }
+  html[data-locale="en"] [data-copy="zh"] { display: none; }
+  html[data-locale="en"] [data-copy="en"] { display: revert; }
+  :focus-visible { outline: 3px solid #a84d35; outline-offset: 4px; }
+  .skip-link { position: fixed; z-index: 20; top: .75rem; left: .75rem; padding: .75rem 1rem; background: #111; color: #fff; transform: translateY(-180%); }
+  .skip-link:focus { transform: none; }
+  .lab-header { min-height: 5.25rem; padding: 1rem clamp(1.25rem, 4vw, 4rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: #171614; color: #f8f4ed; }
+  .lab-header p { margin: 0 0 .25rem; font: 600 .72rem/1.2 "Noto Sans TC", sans-serif; letter-spacing: .16em; }
+  .lab-header span { color: #bdb6ac; font-size: .7rem; }
+  .lab-header nav { display: flex; gap: .25rem; }
+  .lab-header nav a { min-width: 3rem; min-height: 2.75rem; display: grid; place-items: center; font-size: .72rem; text-decoration: none; }
+  .lab-header nav a[aria-current="true"] { text-decoration: underline; text-underline-offset: .4em; }
+  .theme-nav { min-height: 4.5rem; padding-inline: clamp(1rem, 4vw, 4rem); display: flex; align-items: center; gap: 1.5rem; position: sticky; z-index: 10; top: 0; overflow: hidden; border-bottom: 1px solid #383633; background: rgb(23 22 20 / .96); color: #f8f4ed; }
+  .theme-nav > span { flex: 0 0 auto; color: #bdb6ac; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
+  .theme-nav > div { display: flex; flex: 1 1 auto; overflow-x: auto; scrollbar-width: thin; }
+  .theme-nav a { min-height: 4.5rem; padding: 0 1rem; display: inline-flex; flex: 0 0 auto; align-items: center; gap: .55rem; border-inline-start: 1px solid #383633; color: #d8d2c9; font-size: .68rem; letter-spacing: .04em; text-decoration: none; white-space: nowrap; }
+  .theme-nav a:hover { background: #2b2926; color: #fff; }
+  .theme-nav b { color: #a9a197; font: 400 .64rem/1 monospace; }
+  .concept { padding: clamp(3.5rem, 7vw, 7rem) clamp(1rem, 4vw, 4rem); scroll-margin-top: 4.5rem; }
+  .concept-label { max-width: 88rem; margin: 0 auto 1rem; display: flex; align-items: baseline; gap: .75rem; color: #5a5650; }
+  .concept-label span { font: 500 .7rem/1 monospace; }
+  .concept-label h2 { margin: 0; font: 500 .72rem/1.2 "Noto Sans TC", sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+  .hero { max-width: 88rem; min-height: min(48rem, calc(100dvh - 8rem)); margin: auto; position: relative; overflow: hidden; }
+  .hero__copy { position: relative; z-index: 2; }
+  .brand, .eyebrow, .intro { margin: 0; }
+  .hero h3 { margin: 0; font-weight: 500; }
+  .hero__image { margin: 0; overflow: hidden; }
+  .hero__image img { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .cta { min-height: 3rem; width: fit-content; display: inline-flex; align-items: center; gap: 1rem; font-size: .78rem; text-decoration: none; }
+  .cta i { font-style: normal; transition: transform 180ms ease; }
+  .cta:hover i { transform: translateX(.3rem); }
+
+  /* 01 — warm tonal restraint, fine rules, generous serif rhythm */
+  .concept--quiet { background: #e9e0d6; }
+  .concept--quiet .hero { padding: clamp(2rem, 5vw, 5rem); display: grid; align-items: center; background: #f7f2eb; }
+  .concept--quiet .hero__copy { max-width: 48rem; padding: clamp(1rem, 4vw, 4rem) 0; }
+  .concept--quiet .brand { margin-bottom: clamp(4rem, 10vw, 8rem); color: #4d4039; font: 600 clamp(.9rem, 1.3vw, 1.15rem)/1 "Cormorant Garamond", serif; letter-spacing: .3em; }
+  .concept--quiet .eyebrow { color: #7b685e; font-size: .66rem; letter-spacing: .2em; }
+  .concept--quiet h3 { max-width: 8ch; margin: 1.4rem 0 1.8rem; color: #352d29; font-family: "Noto Serif TC", serif; font-size: clamp(3.1rem, 7vw, 7rem); letter-spacing: -.055em; line-height: 1.13; }
+  html[data-locale="en"] .concept--quiet h3 { font-family: "Cormorant Garamond", serif; line-height: .88; }
+  .concept--quiet .intro { max-width: 31rem; color: #6f625b; font-size: 1rem; line-height: 1.85; }
+  .concept--quiet .cta { margin-top: 2.5rem; border-bottom: 1px solid #5e4b42; color: #4d4039; letter-spacing: .08em; }
+  .concept--quiet .hero__image { height: 22rem; }
+  .concept--quiet .hero__image img { filter: sepia(.1) saturate(.72) contrast(.94); object-position: center 55%; }
+
+  /* 02 — airy Japanese grid, restrained ink and persimmon detail */
+  .concept--japanese { background: #f2f0e9; }
+  .concept--japanese .hero { min-height: 48rem; padding: clamp(1.5rem, 4vw, 4rem); display: grid; grid-template-rows: auto 1fr; border: 1px solid #c9c7bc; background: #f8f7f2; }
+  .concept--japanese .hero::before { content: "美 / 肌"; position: absolute; top: 1.6rem; right: clamp(1.5rem, 4vw, 4rem); color: #9d3b28; font: 500 .66rem/1 "Noto Serif TC", serif; letter-spacing: .35em; writing-mode: vertical-rl; }
+  .concept--japanese .hero__copy { max-width: 47rem; align-self: center; padding: 4rem 0 3rem; }
+  .concept--japanese .brand { color: #242522; font-size: .7rem; font-weight: 600; letter-spacing: .28em; }
+  .concept--japanese .eyebrow { margin-top: 5rem; color: #77786f; font-size: .62rem; letter-spacing: .18em; }
+  .concept--japanese h3 { max-width: 9ch; margin: 1.5rem 0 2rem; font-family: "Noto Serif TC", serif; font-size: clamp(2.8rem, 6.5vw, 6rem); font-weight: 400; letter-spacing: .04em; line-height: 1.35; }
+  html[data-locale="en"] .concept--japanese h3 { max-width: 10ch; font-family: "Noto Sans TC", sans-serif; font-weight: 300; letter-spacing: -.04em; line-height: 1.02; }
+  .concept--japanese .intro { max-width: 33rem; color: #65675f; line-height: 2.05; }
+  .concept--japanese .cta { margin-top: 2.75rem; padding: .5rem 0; color: #8c3021; letter-spacing: .12em; }
+  .concept--japanese .hero__image { min-height: 23rem; }
+  .concept--japanese .hero__image img { filter: grayscale(.22) saturate(.72) brightness(1.06); object-position: center 57%; }
+
+  /* 05 — Nordic utility, pale timber tones, compact grotesk typography */
+  .concept--nordic { background: #d9ded8; }
+  .concept--nordic .concept-label { color: #31423a; }
+  .concept--nordic .hero { padding: clamp(1.5rem, 4vw, 4rem); display: grid; align-items: end; background: #f4f5ef; color: #26332d; }
+  .concept--nordic .hero__copy { max-width: 42rem; padding-top: 3rem; }
+  .concept--nordic .brand { font-size: .75rem; font-weight: 600; letter-spacing: .08em; }
+  .concept--nordic .eyebrow { margin-top: clamp(4rem, 10vw, 9rem); color: #61726a; font-size: .65rem; letter-spacing: .14em; }
+  .concept--nordic h3 { max-width: 11ch; margin: 1rem 0 1.5rem; font-family: "Noto Sans TC", sans-serif; font-size: clamp(2.8rem, 6vw, 5.8rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.05; }
+  .concept--nordic .intro { max-width: 34rem; color: #53615b; line-height: 1.75; }
+  .concept--nordic .cta { margin-top: 2rem; padding: .8rem 1rem; border: 1px solid #496057; }
+  .concept--nordic .hero__image { min-height: 24rem; margin-top: 3rem; }
+  .concept--nordic .hero__image img { filter: grayscale(.35) sepia(.08) saturate(.55) brightness(1.08); object-position: center 58%; }
+
+  /* 06 — saturated rose field, delicate oversized serif, floating portrait */
+  .concept--romantic { background: #f4ced8; }
+  .concept--romantic .concept-label { color: #7d2946; }
+  .concept--romantic .hero { min-height: 50rem; padding: clamp(2rem, 5vw, 5rem); background: #b65a7a; color: #fff8f6; }
+  .concept--romantic .hero__copy { min-height: 44rem; display: flex; flex-direction: column; align-items: flex-start; }
+  .concept--romantic .brand { font: 500 1rem/1 "Cormorant Garamond", serif; letter-spacing: .25em; }
+  .concept--romantic .eyebrow { margin-top: auto; font-size: .65rem; letter-spacing: .18em; }
+  .concept--romantic h3 { max-width: 8ch; margin: 1rem 0 1.5rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.6rem, 8vw, 8rem); font-weight: 400; letter-spacing: -.05em; line-height: 1.04; }
+  html[data-locale="en"] .concept--romantic h3 { font-family: "Cormorant Garamond", serif; line-height: .8; }
+  .concept--romantic .intro { max-width: 29rem; color: #ffe7ed; line-height: 1.7; }
+  .concept--romantic .cta { margin-top: 2rem; padding: .75rem 1.1rem; background: #fff2f4; color: #6b223a; }
+  .concept--romantic .hero__image { width: min(40vw, 30rem); height: 68%; position: absolute; right: 4%; top: 8%; transform: rotate(3deg); box-shadow: 1.25rem 1.25rem 0 #8f3d5a; }
+  .concept--romantic .hero__image img { filter: sepia(.08) saturate(.9) contrast(.92); object-position: center 55%; }
+
+  /* 08 — primary geometry, hard grid, high-energy modernist typography */
+  .concept--bauhaus { background: #f0d33f; }
+  .concept--bauhaus .concept-label { color: #171717; }
+  .concept--bauhaus .hero { min-height: 48rem; display: grid; border: 3px solid #151515; background: #f5e7d0; color: #151515; }
+  .concept--bauhaus .hero__copy { padding: clamp(2rem, 5vw, 5rem); }
+  .concept--bauhaus .brand { font-size: .78rem; font-weight: 600; letter-spacing: .04em; }
+  .concept--bauhaus .eyebrow { margin-top: 4rem; font-size: .65rem; font-weight: 600; }
+  .concept--bauhaus h3 { max-width: 8ch; margin: 1rem 0 1.5rem; font-family: "Noto Sans TC", sans-serif; font-size: clamp(3.6rem, 8vw, 7.5rem); font-weight: 600; letter-spacing: -.09em; line-height: .9; }
+  .concept--bauhaus .intro { max-width: 31rem; line-height: 1.6; }
+  .concept--bauhaus .cta { margin-top: 2rem; padding: .8rem 1.1rem; background: #164b9c; color: #fff; }
+  .concept--bauhaus .hero__image { min-height: 28rem; border-top: 3px solid #151515; }
+  .concept--bauhaus .hero__image img { filter: grayscale(1) contrast(1.35); mix-blend-mode: multiply; object-position: center 56%; }
+  .concept--bauhaus .decoration { width: 8rem; height: 8rem; position: absolute; z-index: 3; right: -2rem; top: -2rem; border-radius: 50%; background: #d83b2d; }
+
+  /* 09 — earthen calm, soft crop, grounded serif and tactile border */
+  .concept--organic { background: #9eaa91; }
+  .concept--organic .concept-label { color: #263224; }
+  .concept--organic .hero { min-height: 49rem; padding: clamp(2rem, 5vw, 5rem); display: grid; background: #d8cbb6; color: #293326; }
+  .concept--organic .hero__copy { align-self: center; }
+  .concept--organic .brand { font: 600 .75rem/1 "Cormorant Garamond", serif; letter-spacing: .22em; }
+  .concept--organic .eyebrow { margin-top: clamp(3rem, 8vw, 7rem); color: #57614d; font-size: .65rem; letter-spacing: .16em; }
+  .concept--organic h3 { max-width: 9ch; margin: 1.25rem 0 1.75rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.1rem, 6.5vw, 6.2rem); font-weight: 400; letter-spacing: -.035em; line-height: 1.18; }
+  html[data-locale="en"] .concept--organic h3 { font-family: "Cormorant Garamond", serif; line-height: .9; }
+  .concept--organic .intro { max-width: 32rem; color: #4e5848; line-height: 1.85; }
+  .concept--organic .cta { margin-top: 2.25rem; padding: .7rem 0; border-bottom: 1px solid #43513d; }
+  .concept--organic .hero__image { min-height: 25rem; border: .65rem solid #ebe3d4; }
+  .concept--organic .hero__image img { filter: sepia(.25) saturate(.55) hue-rotate(345deg); object-position: center 57%; }
+
+  /* 11 — black, champagne and symmetrical deco framing */
+  .concept--deco { background: #b49a69; }
+  .concept--deco .concept-label { color: #342817; }
+  .concept--deco .hero { min-height: 52rem; padding: clamp(2rem, 5vw, 5rem); background: #151310; color: #ead8b2; text-align: center; }
+  .concept--deco .hero::before { content: ""; position: absolute; inset: 1.25rem; border: 1px solid #9e8356; pointer-events: none; }
+  .concept--deco .hero__copy { min-height: 45rem; display: flex; flex-direction: column; align-items: center; }
+  .concept--deco .brand { font: 500 1.1rem/1 "Cormorant Garamond", serif; letter-spacing: .32em; }
+  .concept--deco .eyebrow { margin-top: auto; color: #c8ad7c; font-size: .62rem; letter-spacing: .25em; }
+  .concept--deco h3 { max-width: 9ch; margin: 1.1rem auto 1.5rem; font-family: "Noto Serif TC", serif; font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 400; line-height: 1.15; }
+  html[data-locale="en"] .concept--deco h3 { font-family: "Cormorant Garamond", serif; line-height: .86; }
+  .concept--deco .intro { max-width: 31rem; color: #c9bfae; line-height: 1.75; }
+  .concept--deco .cta { margin-top: 2rem; padding: .75rem 1.25rem; border: 1px solid #b89b68; }
+  .concept--deco .hero__image { width: min(26vw, 20rem); height: 58%; position: absolute; left: 4%; top: 21%; clip-path: polygon(50% 0, 100% 18%, 100% 82%, 50% 100%, 0 82%, 0 18%); opacity: .5; }
+  .concept--deco .hero__image img { filter: sepia(.65) grayscale(.5) contrast(1.15); object-position: center 55%; }
+
+  /* 13 — sun-washed clay and cobalt, relaxed coastal composition */
+  .concept--mediterranean { background: #e2a274; }
+  .concept--mediterranean .concept-label { color: #4a2917; }
+  .concept--mediterranean .hero { min-height: 49rem; padding: clamp(2rem, 5vw, 5rem); display: grid; background: #f7d4ae; color: #432719; }
+  .concept--mediterranean .brand { color: #174f75; font: 600 .8rem/1 "Cormorant Garamond", serif; letter-spacing: .2em; }
+  .concept--mediterranean .eyebrow { margin-top: 4rem; color: #805039; font-size: .65rem; letter-spacing: .15em; }
+  .concept--mediterranean h3 { max-width: 9ch; margin: 1.2rem 0 1.75rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.2rem, 6.5vw, 6.4rem); font-weight: 500; letter-spacing: -.045em; line-height: 1.12; }
+  html[data-locale="en"] .concept--mediterranean h3 { font-family: "Cormorant Garamond", serif; line-height: .88; }
+  .concept--mediterranean .intro { max-width: 32rem; color: #704733; line-height: 1.8; }
+  .concept--mediterranean .cta { margin-top: 2rem; padding: .8rem 1.1rem; background: #174f75; color: #fff; }
+  .concept--mediterranean .hero__image { min-height: 27rem; border-radius: 50% 50% 0 0; }
+  .concept--mediterranean .hero__image img { filter: sepia(.16) saturate(.82) brightness(1.08); object-position: center 57%; }
+
+  /* 15 — dusty rose atelier, restrained boutique framing */
+  .concept--dusty-atelier { background: #b47d87; }
+  .concept--dusty-atelier .concept-label { color: #3f292e; }
+  .concept--dusty-atelier .hero { min-height: 50rem; padding: clamp(2rem, 5vw, 5rem); display: grid; background: #ead7d8; color: #3b292d; }
+  .concept--dusty-atelier .hero::before { content: "ATELIER / 01"; position: absolute; right: 1.5rem; top: 50%; color: #82545d; font: 500 .58rem/1 "Noto Sans TC", sans-serif; letter-spacing: .2em; writing-mode: vertical-rl; }
+  .concept--dusty-atelier .hero__copy { align-self: center; }
+  .concept--dusty-atelier .brand { font: 600 .88rem/1 "Cormorant Garamond", serif; letter-spacing: .3em; }
+  .concept--dusty-atelier .eyebrow { margin-top: clamp(4rem, 9vw, 8rem); color: #795159; font-size: .64rem; letter-spacing: .19em; }
+  .concept--dusty-atelier h3 { max-width: 8.5ch; margin: 1.2rem 0 1.75rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.2rem, 7vw, 6.8rem); font-weight: 400; letter-spacing: -.05em; line-height: 1.12; }
+  html[data-locale="en"] .concept--dusty-atelier h3 { font-family: "Cormorant Garamond", serif; line-height: .84; }
+  .concept--dusty-atelier .intro { max-width: 31rem; color: #665057; line-height: 1.8; }
+  .concept--dusty-atelier .cta { margin-top: 2.25rem; padding: .75rem 1.1rem; background: #57373f; color: #fff6f5; }
+  .concept--dusty-atelier .hero__image { min-height: 27rem; outline: 1px solid #a57079; outline-offset: .75rem; }
+  .concept--dusty-atelier .hero__image img { filter: sepia(.18) saturate(.56) hue-rotate(310deg) contrast(.94); object-position: center 56%; }
+
+  /* 16 — tea rose minimal, low contrast field and vertical rhythm */
+  .concept--tea-rose { background: #d2aaa8; }
+  .concept--tea-rose .concept-label { color: #513d3b; }
+  .concept--tea-rose .hero { min-height: 49rem; padding: clamp(2rem, 5vw, 5rem); display: grid; background: #f3e8e4; color: #443431; }
+  .concept--tea-rose .hero__copy { max-width: 44rem; align-self: center; }
+  .concept--tea-rose .brand { color: #8b6562; font-size: .66rem; font-weight: 600; letter-spacing: .28em; }
+  .concept--tea-rose .eyebrow { margin-top: clamp(5rem, 12vw, 10rem); color: #8a6663; font-size: .62rem; letter-spacing: .2em; }
+  .concept--tea-rose h3 { max-width: 10ch; margin: 1.5rem 0 2rem; font-family: "Noto Serif TC", serif; font-size: clamp(2.8rem, 6vw, 5.8rem); font-weight: 400; letter-spacing: .04em; line-height: 1.35; }
+  html[data-locale="en"] .concept--tea-rose h3 { max-width: 11ch; font-family: "Cormorant Garamond", serif; letter-spacing: -.025em; line-height: .96; }
+  .concept--tea-rose .intro { max-width: 32rem; color: #6c5652; line-height: 2; }
+  .concept--tea-rose .cta { margin-top: 2.5rem; padding: .5rem 0; border-bottom: 1px solid #8e615f; }
+  .concept--tea-rose .hero__image { min-height: 25rem; }
+  .concept--tea-rose .hero__image img { filter: grayscale(.15) sepia(.22) saturate(.48) brightness(1.1); object-position: center 58%; }
+  .concept--tea-rose .decoration { width: 1px; height: 8rem; position: absolute; right: 2.5rem; top: 2.5rem; background: #b88786; }
+
+  /* 17 — deep mauve and cocoa, cinematic magazine spread */
+  .concept--mauve-cocoa { background: #6f5159; }
+  .concept--mauve-cocoa .concept-label { color: #f0dadd; }
+  .concept--mauve-cocoa .hero { min-height: 52rem; background: #35282c; color: #faeded; }
+  .concept--mauve-cocoa .hero__image { position: absolute; inset: 0 0 0 42%; }
+  .concept--mauve-cocoa .hero__image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #35282c 0, rgb(53 40 44 / .35) 62%, transparent); }
+  .concept--mauve-cocoa .hero__image img { filter: sepia(.18) saturate(.55) hue-rotate(305deg) brightness(.74) contrast(1.1); object-position: center 55%; }
+  .concept--mauve-cocoa .hero__copy { min-height: 52rem; padding: clamp(2rem, 6vw, 6rem); display: flex; flex-direction: column; align-items: flex-start; }
+  .concept--mauve-cocoa .brand { color: #d8aab4; font: 500 1rem/1 "Cormorant Garamond", serif; letter-spacing: .26em; }
+  .concept--mauve-cocoa .eyebrow { margin-top: auto; color: #d0aeb5; font-size: .64rem; letter-spacing: .2em; }
+  .concept--mauve-cocoa h3 { max-width: 8ch; margin: 1rem 0 1.5rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.6rem, 8vw, 7.8rem); font-weight: 400; letter-spacing: -.06em; line-height: 1.03; }
+  html[data-locale="en"] .concept--mauve-cocoa h3 { font-family: "Cormorant Garamond", serif; line-height: .78; }
+  .concept--mauve-cocoa .intro { max-width: 30rem; color: #d7c5c8; line-height: 1.75; }
+  .concept--mauve-cocoa .cta { margin-top: 2rem; padding: .75rem 1.1rem; background: #dca6b2; color: #35282c; }
+  .concept--mauve-cocoa .decoration { width: 7rem; height: 7rem; position: absolute; z-index: 2; right: 2rem; bottom: 2rem; border: 1px solid #dca6b2; border-radius: 50%; }
+
+  /* 18 — layered blush paper, offset image and playful editorial blocks */
+  .concept--blush-collage { background: #c5969e; }
+  .concept--blush-collage .concept-label { color: #432c31; }
+  .concept--blush-collage .hero { min-height: 51rem; padding: clamp(2rem, 5vw, 5rem); background: #f1dedf; color: #402c30; }
+  .concept--blush-collage .hero::before { content: ""; width: 38%; height: 68%; position: absolute; right: 4%; top: 8%; background: #a96f7a; transform: rotate(-4deg); }
+  .concept--blush-collage .hero__copy { max-width: 48rem; min-height: 44rem; display: flex; flex-direction: column; align-items: flex-start; }
+  .concept--blush-collage .brand { padding: .6rem .8rem; background: #402c30; color: #fff5f3; font: 600 .72rem/1 "Noto Sans TC", sans-serif; letter-spacing: .18em; transform: rotate(-2deg); }
+  .concept--blush-collage .eyebrow { margin-top: auto; color: #80535b; font-size: .64rem; letter-spacing: .17em; }
+  .concept--blush-collage h3 { max-width: 8ch; margin: 1rem 0 1.5rem; font-family: "Noto Sans TC", sans-serif; font-size: clamp(3.5rem, 8vw, 7.5rem); font-weight: 500; letter-spacing: -.085em; line-height: .94; }
+  html[data-locale="en"] .concept--blush-collage h3 { font-family: "Cormorant Garamond", serif; font-weight: 500; line-height: .78; }
+  .concept--blush-collage .intro { max-width: 31rem; color: #674e53; line-height: 1.7; }
+  .concept--blush-collage .cta { margin-top: 2rem; padding: .8rem 1.1rem; border: 1px solid #68444c; }
+  .concept--blush-collage .hero__image { width: min(38vw, 29rem); height: 64%; position: absolute; right: 7%; top: 15%; transform: rotate(2deg); box-shadow: .8rem .8rem 0 #e8bfc5; }
+  .concept--blush-collage .hero__image img { filter: sepia(.1) saturate(.66) hue-rotate(315deg); object-position: center 56%; }
+
+  /* 19 — Neo Romantic with greige rose, centered restraint */
+  .concept--muted-romantic { background: #b9a5a7; }
+  .concept--muted-romantic .concept-label { color: #43383a; }
+  .concept--muted-romantic .hero { min-height: 51rem; padding: clamp(2rem, 5vw, 5rem); background: #e7dddd; color: #3d3335; text-align: center; }
+  .concept--muted-romantic .hero__copy { min-height: 44rem; display: flex; flex-direction: column; align-items: center; }
+  .concept--muted-romantic .brand { font: 500 .95rem/1 "Cormorant Garamond", serif; letter-spacing: .28em; }
+  .concept--muted-romantic .eyebrow { margin-top: auto; color: #766468; font-size: .63rem; letter-spacing: .2em; }
+  .concept--muted-romantic h3 { max-width: 8.5ch; margin: 1.1rem auto 1.6rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.3rem, 7vw, 6.8rem); font-weight: 400; letter-spacing: -.05em; line-height: 1.1; }
+  html[data-locale="en"] .concept--muted-romantic h3 { font-family: "Cormorant Garamond", serif; line-height: .84; }
+  .concept--muted-romantic .intro { max-width: 30rem; color: #65575a; line-height: 1.8; }
+  .concept--muted-romantic .cta { margin-top: 2rem; padding: .7rem 1.1rem; border: 1px solid #776267; }
+  .concept--muted-romantic .hero__image { width: min(28vw, 21rem); height: 62%; position: absolute; left: 3%; top: 19%; opacity: .38; }
+  .concept--muted-romantic .hero__image img { filter: grayscale(.55) sepia(.12) hue-rotate(305deg) saturate(.35) contrast(.92); object-position: center 56%; }
+  .concept--muted-romantic .decoration { width: min(28vw, 21rem); height: 62%; position: absolute; right: 3%; top: 19%; border: 1px solid #a38d91; }
+
+  /* 20 — powder rose split, pale editorial portrait and serif scale */
+  .concept--powder-romantic { background: #cbb6b9; }
+  .concept--powder-romantic .concept-label { color: #4b3b3e; }
+  .concept--powder-romantic .hero { min-height: 49rem; display: grid; background: #f0e8e5; color: #443638; }
+  .concept--powder-romantic .hero__copy { padding: clamp(2rem, 6vw, 6rem); align-self: center; }
+  .concept--powder-romantic .brand { color: #7d696c; font: 500 .85rem/1 "Cormorant Garamond", serif; letter-spacing: .25em; }
+  .concept--powder-romantic .eyebrow { margin-top: clamp(4rem, 9vw, 8rem); color: #806d70; font-size: .63rem; letter-spacing: .18em; }
+  .concept--powder-romantic h3 { max-width: 8.5ch; margin: 1.2rem 0 1.7rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.1rem, 6.5vw, 6.2rem); font-weight: 400; letter-spacing: -.045em; line-height: 1.15; }
+  html[data-locale="en"] .concept--powder-romantic h3 { font-family: "Cormorant Garamond", serif; line-height: .88; }
+  .concept--powder-romantic .intro { max-width: 31rem; color: #695b5e; line-height: 1.85; }
+  .concept--powder-romantic .cta { margin-top: 2.25rem; padding: .75rem 1.1rem; background: #685459; color: #fff8f6; }
+  .concept--powder-romantic .hero__image { min-height: 28rem; }
+  .concept--powder-romantic .hero__image img { filter: grayscale(.28) sepia(.15) saturate(.38) brightness(1.08); object-position: center 56%; }
+
+  /* 21 — antique mauve, faded salon portrait and classical border */
+  .concept--antique-romantic { background: #837278; }
+  .concept--antique-romantic .concept-label { color: #f1e4e2; }
+  .concept--antique-romantic .hero { min-height: 52rem; padding: clamp(2rem, 5vw, 5rem); background: #594b50; color: #f3e9e6; }
+  .concept--antique-romantic .hero::before { content: ""; position: absolute; inset: 1.25rem; border: 1px solid #a9969a; pointer-events: none; }
+  .concept--antique-romantic .hero__copy { min-height: 45rem; display: flex; flex-direction: column; align-items: flex-start; }
+  .concept--antique-romantic .brand { color: #dccacc; font: 500 1rem/1 "Cormorant Garamond", serif; letter-spacing: .28em; }
+  .concept--antique-romantic .eyebrow { margin-top: auto; color: #cab9bc; font-size: .63rem; letter-spacing: .2em; }
+  .concept--antique-romantic h3 { max-width: 8ch; margin: 1rem 0 1.5rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.5rem, 7.5vw, 7.4rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.06; }
+  html[data-locale="en"] .concept--antique-romantic h3 { font-family: "Cormorant Garamond", serif; line-height: .8; }
+  .concept--antique-romantic .intro { max-width: 30rem; color: #d3c6c7; line-height: 1.75; }
+  .concept--antique-romantic .cta { margin-top: 2rem; padding: .7rem 1.1rem; border: 1px solid #d5c2c5; }
+  .concept--antique-romantic .hero__image { width: min(39vw, 30rem); height: 72%; position: absolute; right: 5%; top: 14%; opacity: .52; }
+  .concept--antique-romantic .hero__image img { filter: grayscale(.6) sepia(.2) hue-rotate(305deg) saturate(.32) contrast(1.05); object-position: center 55%; }
+
+  /* 16–19 — Dusty Rose Atelier translated through Morandi palettes */
+  .concept--morandi-sage { background: #9ba195; }
+  .concept--morandi-clay { background: #ad9185; }
+  .concept--morandi-blue { background: #90999d; }
+  .concept--morandi-lilac { background: #a49aa5; }
+  .concept--morandi-sage .concept-label { color: #30372f; }
+  .concept--morandi-clay .concept-label { color: #44342f; }
+  .concept--morandi-blue .concept-label { color: #293438; }
+  .concept--morandi-lilac .concept-label { color: #393238; }
+  .concept--morandi-sage .hero, .concept--morandi-clay .hero, .concept--morandi-blue .hero, .concept--morandi-lilac .hero { min-height: 50rem; padding: clamp(2rem, 5vw, 5rem); display: grid; }
+  .concept--morandi-sage .hero { background: #dfddd2; color: #343b32; }
+  .concept--morandi-clay .hero { background: #e5d8cf; color: #44342f; }
+  .concept--morandi-blue .hero { background: #dee1df; color: #2e393d; }
+  .concept--morandi-lilac .hero { background: #e3dde2; color: #3d353d; }
+  .concept--morandi-sage .hero__copy, .concept--morandi-clay .hero__copy, .concept--morandi-blue .hero__copy, .concept--morandi-lilac .hero__copy { align-self: center; }
+  .concept--morandi-sage .brand, .concept--morandi-clay .brand, .concept--morandi-blue .brand, .concept--morandi-lilac .brand { font: 600 .88rem/1 "Cormorant Garamond", serif; letter-spacing: .3em; }
+  .concept--morandi-sage .eyebrow, .concept--morandi-clay .eyebrow, .concept--morandi-blue .eyebrow, .concept--morandi-lilac .eyebrow { margin-top: clamp(4rem, 9vw, 8rem); font-size: .64rem; letter-spacing: .19em; }
+  .concept--morandi-sage .eyebrow { color: #5e685a; }
+  .concept--morandi-clay .eyebrow { color: #765c52; }
+  .concept--morandi-blue .eyebrow { color: #58686e; }
+  .concept--morandi-lilac .eyebrow { color: #6e606d; }
+  .concept--morandi-sage h3, .concept--morandi-clay h3, .concept--morandi-blue h3, .concept--morandi-lilac h3 { max-width: 8.5ch; margin: 1.2rem 0 1.75rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.2rem, 7vw, 6.7rem); font-weight: 400; letter-spacing: -.05em; line-height: 1.12; }
+  html[data-locale="en"] .concept--morandi-sage h3, html[data-locale="en"] .concept--morandi-clay h3, html[data-locale="en"] .concept--morandi-blue h3, html[data-locale="en"] .concept--morandi-lilac h3 { font-family: "Cormorant Garamond", serif; line-height: .84; }
+  .concept--morandi-sage .intro, .concept--morandi-clay .intro, .concept--morandi-blue .intro, .concept--morandi-lilac .intro { max-width: 31rem; line-height: 1.82; }
+  .concept--morandi-sage .intro { color: #566052; }
+  .concept--morandi-clay .intro { color: #69544c; }
+  .concept--morandi-blue .intro { color: #526166; }
+  .concept--morandi-lilac .intro { color: #625660; }
+  .concept--morandi-sage .cta, .concept--morandi-clay .cta, .concept--morandi-blue .cta, .concept--morandi-lilac .cta { margin-top: 2.25rem; padding: .75rem 1.1rem; color: #fff; }
+  .concept--morandi-sage .cta { background: #556052; }
+  .concept--morandi-clay .cta { background: #6d5147; }
+  .concept--morandi-blue .cta { background: #4f6066; }
+  .concept--morandi-lilac .cta { background: #62545f; }
+  .concept--morandi-sage .hero__image, .concept--morandi-clay .hero__image, .concept--morandi-blue .hero__image, .concept--morandi-lilac .hero__image { min-height: 27rem; outline: 1px solid currentColor; outline-offset: .7rem; }
+  .concept--morandi-sage .hero__image img { filter: grayscale(.38) sepia(.12) hue-rotate(50deg) saturate(.35); object-position: center 56%; }
+  .concept--morandi-clay .hero__image img { filter: grayscale(.3) sepia(.28) saturate(.42); object-position: center 59%; }
+  .concept--morandi-blue .hero__image img { filter: grayscale(.55) sepia(.05) hue-rotate(155deg) saturate(.32); object-position: center 53%; }
+  .concept--morandi-lilac .hero__image img { filter: grayscale(.45) sepia(.1) hue-rotate(285deg) saturate(.32); object-position: center 57%; }
+
+  /* Six warm, low-chroma variations derived from the selected five directions. */
+  .concept--quiet-rose { background: #c9a8a8; }
+  .concept--quiet-rose .hero { padding: clamp(2rem, 5vw, 5rem); display: grid; align-items: center; background: #f3e9e5; }
+  .concept--quiet-rose .hero__copy { padding-block: clamp(2rem, 6vw, 6rem); }
+  .concept--quiet-rose .brand { margin-bottom: clamp(5rem, 11vw, 9rem); color: #74585a; font: 600 .82rem/1 "Cormorant Garamond", serif; letter-spacing: .34em; }
+  .concept--quiet-rose .eyebrow { color: #9a7378; font-size: .62rem; letter-spacing: .22em; }
+  .concept--quiet-rose h3 { max-width: 8ch; margin: 1.25rem 0 1.8rem; color: #49383a; font-family: "Noto Serif TC", serif; font-size: clamp(3.4rem, 7.5vw, 7.2rem); font-weight: 400; letter-spacing: -.06em; line-height: 1.08; }
+  html[data-locale="en"] .concept--quiet-rose h3 { font-family: "Cormorant Garamond", serif; line-height: .82; }
+  .concept--quiet-rose .intro { max-width: 29rem; color: #755f61; line-height: 1.9; }
+  .concept--quiet-rose .cta { margin-top: 2.4rem; padding-bottom: .35rem; border-bottom: 1px solid #8d666b; color: #60484b; }
+  .concept--quiet-rose .hero__image { height: 24rem; }
+  .concept--quiet-rose .hero__image img { filter: grayscale(.2) sepia(.18) saturate(.48); object-position: center 56%; }
+
+  .concept--romantic-atelier { background: #8d676c; }
+  .concept--romantic-atelier .hero { min-height: 51rem; padding: clamp(2rem, 6vw, 6rem); overflow: hidden; background: #c7a2a5; color: #392a2c; }
+  .concept--romantic-atelier .hero::before { content: ""; position: absolute; inset: 2rem; border: 1px solid rgba(73, 47, 52, .28); }
+  .concept--romantic-atelier .hero__copy { min-height: 43rem; display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 2; }
+  .concept--romantic-atelier .brand { font: 500 .8rem/1 "Cormorant Garamond", serif; letter-spacing: .34em; }
+  .concept--romantic-atelier .eyebrow { margin-top: auto; color: #755258; font-size: .64rem; letter-spacing: .2em; }
+  .concept--romantic-atelier h3 { max-width: 7ch; margin: 1rem 0 1.5rem; font-family: "Noto Serif TC", serif; font-size: clamp(4rem, 9vw, 8.2rem); font-weight: 400; letter-spacing: -.07em; line-height: 1.02; }
+  html[data-locale="en"] .concept--romantic-atelier h3 { font-family: "Cormorant Garamond", serif; font-style: italic; line-height: .76; }
+  .concept--romantic-atelier .intro { max-width: 28rem; color: #62494d; line-height: 1.75; }
+  .concept--romantic-atelier .cta { margin-top: 2rem; padding: .75rem 1.15rem; border: 1px solid #604248; }
+  .concept--romantic-atelier .hero__image { width: min(38vw, 29rem); height: 72%; position: absolute; right: 8%; top: 11%; box-shadow: 1rem 1rem 0 #b28288; }
+  .concept--romantic-atelier .hero__image img { filter: grayscale(.28) sepia(.15) saturate(.48); object-position: center 55%; }
+
+  .concept--tea-luxury { background: #e0cbc4; }
+  .concept--tea-luxury .hero { padding: clamp(2rem, 5vw, 5rem); display: grid; background: #f8f0e9; text-align: center; }
+  .concept--tea-luxury .hero__copy { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .concept--tea-luxury .brand { padding-block: 1rem; border-block: 1px solid #c7aaa4; color: #6f5153; font: 600 .78rem/1 "Cormorant Garamond", serif; letter-spacing: .38em; }
+  .concept--tea-luxury .eyebrow { margin-top: clamp(3rem, 7vw, 6rem); color: #a17678; font-size: .61rem; letter-spacing: .23em; }
+  .concept--tea-luxury h3 { max-width: 9ch; margin: 1.25rem auto 1.75rem; color: #4d3b3c; font-family: "Noto Serif TC", serif; font-size: clamp(3.1rem, 6.5vw, 6.2rem); font-weight: 400; letter-spacing: -.045em; line-height: 1.13; }
+  html[data-locale="en"] .concept--tea-luxury h3 { font-family: "Cormorant Garamond", serif; line-height: .86; }
+  .concept--tea-luxury .intro { max-width: 27rem; color: #796465; line-height: 1.9; }
+  .concept--tea-luxury .cta { margin-top: 2.25rem; color: #62484b; letter-spacing: .14em; }
+  .concept--tea-luxury .hero__image { height: 25rem; margin-top: 2.5rem; }
+  .concept--tea-luxury .hero__image img { filter: sepia(.2) saturate(.46) brightness(1.04); object-position: center 52%; }
+
+  .concept--dusty-paper { background: #aa7d82; }
+  .concept--dusty-paper .hero { min-height: 51rem; padding: clamp(2rem, 5vw, 5rem); overflow: hidden; background: #ead8d5; color: #3f2e31; }
+  .concept--dusty-paper .hero::before { content: ""; width: 38%; height: 76%; position: absolute; right: 4%; top: 8%; background: #bd9798; transform: rotate(3deg); }
+  .concept--dusty-paper .hero__copy { min-height: 43rem; display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 2; }
+  .concept--dusty-paper .brand { padding: .65rem .85rem; background: #513b3e; color: #faefeb; font: 500 .7rem/1 "Noto Sans TC", sans-serif; letter-spacing: .2em; transform: rotate(-1.5deg); }
+  .concept--dusty-paper .eyebrow { margin-top: auto; color: #835e62; font-size: .63rem; letter-spacing: .19em; }
+  .concept--dusty-paper h3 { max-width: 7.5ch; margin: 1rem 0 1.5rem; font-family: "Noto Sans TC", sans-serif; font-size: clamp(3.6rem, 8.5vw, 7.8rem); font-weight: 300; letter-spacing: -.085em; line-height: .98; }
+  html[data-locale="en"] .concept--dusty-paper h3 { font-family: "Cormorant Garamond", serif; line-height: .78; }
+  .concept--dusty-paper .intro { max-width: 29rem; color: #6e5558; line-height: 1.75; }
+  .concept--dusty-paper .cta { margin-top: 2rem; padding: .8rem 1.1rem; background: #d1afb0; }
+  .concept--dusty-paper .hero__image { width: min(36vw, 28rem); height: 66%; position: absolute; right: 7%; top: 16%; transform: rotate(-2deg); box-shadow: -.8rem .8rem 0 #f4e9e3; }
+  .concept--dusty-paper .hero__image img { filter: grayscale(.18) sepia(.14) saturate(.42); object-position: center 57%; }
+
+  .concept--romantic-minimal { background: #d8c0be; }
+  .concept--romantic-minimal .hero { padding: clamp(2rem, 6vw, 6rem); display: grid; background: #fbf6f1; }
+  .concept--romantic-minimal .hero__copy { align-self: center; max-width: 41rem; }
+  .concept--romantic-minimal .brand { color: #806366; font: 500 .76rem/1 "Noto Sans TC", sans-serif; letter-spacing: .3em; }
+  .concept--romantic-minimal .eyebrow { margin-top: clamp(5rem, 12vw, 10rem); color: #a57f82; font-size: .61rem; letter-spacing: .23em; }
+  .concept--romantic-minimal h3 { max-width: 8ch; margin: 1.2rem 0 1.8rem; color: #483638; font-family: "Noto Serif TC", serif; font-size: clamp(3.2rem, 6.8vw, 6.4rem); font-weight: 400; letter-spacing: -.05em; line-height: 1.14; }
+  html[data-locale="en"] .concept--romantic-minimal h3 { font-family: "Cormorant Garamond", serif; line-height: .86; }
+  .concept--romantic-minimal .intro { max-width: 26rem; color: #756164; line-height: 1.95; }
+  .concept--romantic-minimal .cta { margin-top: 2.5rem; padding-bottom: .4rem; border-bottom: 1px solid #9a777a; color: #5e474a; }
+  .concept--romantic-minimal .hero__image { height: 22rem; margin-top: 3rem; }
+  .concept--romantic-minimal .hero__image img { filter: grayscale(.42) sepia(.18) saturate(.36) brightness(1.06); object-position: center 54%; }
+
+  .concept--blush-atelier { background: #5b4144; }
+  .concept--blush-atelier .hero { min-height: 51rem; padding: clamp(2rem, 6vw, 6rem); overflow: hidden; background: #725257; color: #f6e9e5; }
+  .concept--blush-atelier .hero::before { content: ""; position: absolute; inset: 1.5rem; border: 1px solid rgba(248, 228, 222, .28); }
+  .concept--blush-atelier .hero__copy { min-height: 43rem; display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 2; }
+  .concept--blush-atelier .brand { color: #f5dfda; font: 600 .82rem/1 "Cormorant Garamond", serif; letter-spacing: .35em; }
+  .concept--blush-atelier .eyebrow { margin-top: auto; color: #dab9b6; font-size: .63rem; letter-spacing: .2em; }
+  .concept--blush-atelier h3 { max-width: 7.5ch; margin: 1rem 0 1.5rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.8rem, 8vw, 7.5rem); font-weight: 400; letter-spacing: -.06em; line-height: 1.05; }
+  html[data-locale="en"] .concept--blush-atelier h3 { font-family: "Cormorant Garamond", serif; line-height: .8; }
+  .concept--blush-atelier .intro { max-width: 28rem; color: #ead3cf; line-height: 1.8; }
+  .concept--blush-atelier .cta { margin-top: 2.1rem; padding: .8rem 1.15rem; border: 1px solid #dcbfba; color: #fff3ef; }
+  .concept--blush-atelier .hero__image { width: min(37vw, 29rem); height: 70%; position: absolute; right: 8%; top: 12%; padding: .65rem; border: 1px solid #cfaca9; }
+  .concept--blush-atelier .hero__image img { filter: grayscale(.38) sepia(.22) saturate(.42) contrast(.92); object-position: center 56%; }
+
+  .concept--veiled-peony { background: #d3b4b8; }
+  .concept--veiled-peony .hero { min-height: 51rem; padding: clamp(2rem, 6vw, 6rem); overflow: hidden; background: #f2e2e3; color: #4b3539; }
+  .concept--veiled-peony .hero::after { content: ""; position: absolute; inset: 0 0 0 48%; z-index: 1; background: rgba(248, 236, 234, .5); backdrop-filter: blur(5px); }
+  .concept--veiled-peony .hero__copy { min-height: 43rem; display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 2; }
+  .concept--veiled-peony .brand { font: 500 .78rem/1 "Cormorant Garamond", serif; letter-spacing: .36em; }
+  .concept--veiled-peony .eyebrow { margin-top: auto; color: #8a6168; font-size: .62rem; letter-spacing: .22em; }
+  .concept--veiled-peony h3 { max-width: 7ch; margin: 1rem 0 1.5rem; font-family: "Noto Serif TC", serif; font-size: clamp(4rem, 9vw, 8rem); font-weight: 400; letter-spacing: -.07em; line-height: 1.02; }
+  html[data-locale="en"] .concept--veiled-peony h3 { font-family: "Cormorant Garamond", serif; font-style: italic; line-height: .76; }
+  .concept--veiled-peony .intro { max-width: 28rem; color: #73565b; line-height: 1.8; }
+  .concept--veiled-peony .cta { margin-top: 2rem; padding-bottom: .35rem; border-bottom: 1px solid #765158; }
+  .concept--veiled-peony .hero__image { width: 53%; height: 100%; position: absolute; inset: 0 0 0 auto; }
+  .concept--veiled-peony .hero__image img { filter: grayscale(.1) sepia(.08) saturate(.55) brightness(1.04); object-position: center 55%; }
+
+  .concept--french-journal { background: #a9797f; }
+  .concept--french-journal .hero { padding: clamp(2rem, 5vw, 5rem); display: grid; background: #f7ede7; color: #3f3032; }
+  .concept--french-journal .hero__copy { padding: clamp(1rem, 4vw, 4rem); border: 1px solid #c9a8a4; }
+  .concept--french-journal .brand { padding-bottom: 1rem; border-bottom: 1px solid #c9a8a4; color: #7e5d61; font: 600 .78rem/1 "Cormorant Garamond", serif; letter-spacing: .32em; }
+  .concept--french-journal .eyebrow { margin-top: clamp(4rem, 9vw, 8rem); color: #987076; font-size: .62rem; letter-spacing: .2em; }
+  .concept--french-journal h3 { max-width: 8ch; margin: 1.25rem 0 1.6rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.4rem, 7vw, 6.8rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.1; }
+  html[data-locale="en"] .concept--french-journal h3 { font-family: "Cormorant Garamond", serif; line-height: .82; }
+  .concept--french-journal .intro { max-width: 28rem; color: #725d5f; line-height: 1.9; }
+  .concept--french-journal .cta { margin-top: 2.25rem; color: #65494e; letter-spacing: .14em; }
+  .concept--french-journal .hero__image { height: 27rem; margin-top: 1.5rem; padding: .55rem; border: 1px solid #c9a8a4; }
+  .concept--french-journal .hero__image img { filter: sepia(.24) saturate(.42) contrast(.93); object-position: center 58%; }
+
+  .concept--powder-mono { background: #d1b4b6; }
+  .concept--powder-mono .hero { padding: clamp(2rem, 6vw, 6rem); display: grid; background: #d9bdbe; color: #483537; }
+  .concept--powder-mono .hero__copy { align-self: center; }
+  .concept--powder-mono .brand { color: #684d51; font: 500 .75rem/1 "Noto Sans TC", sans-serif; letter-spacing: .38em; }
+  .concept--powder-mono .eyebrow { margin-top: clamp(5rem, 11vw, 9rem); color: #78575c; font-size: .61rem; letter-spacing: .23em; }
+  .concept--powder-mono h3 { max-width: 8ch; margin: 1.2rem 0 1.7rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.6rem, 7.5vw, 7.2rem); font-weight: 400; letter-spacing: -.06em; line-height: 1.08; }
+  html[data-locale="en"] .concept--powder-mono h3 { font-family: "Cormorant Garamond", serif; line-height: .8; }
+  .concept--powder-mono .intro { max-width: 27rem; color: #61494d; line-height: 1.85; }
+  .concept--powder-mono .cta { margin-top: 2.2rem; padding: .8rem 1.15rem; background: #543d41; color: #f4e7e5; }
+  .concept--powder-mono .hero__image { height: 25rem; margin-top: 2.5rem; mix-blend-mode: luminosity; }
+  .concept--powder-mono .hero__image img { filter: grayscale(1) contrast(.82) brightness(1.08); object-position: center 54%; }
+
+  .concept--midnight-rose { background: #2f2427; }
+  .concept--midnight-rose .hero { min-height: 51rem; padding: clamp(2rem, 6vw, 6rem); overflow: hidden; background: #3e2d32; color: #f4e2df; }
+  .concept--midnight-rose .hero::before { content: ""; position: absolute; inset: 1.5rem; border: 1px solid rgba(233, 196, 195, .3); }
+  .concept--midnight-rose .hero__copy { min-height: 43rem; display: flex; flex-direction: column; align-items: flex-start; position: relative; z-index: 2; }
+  .concept--midnight-rose .brand { color: #e6c4c3; font: 500 .8rem/1 "Cormorant Garamond", serif; letter-spacing: .36em; }
+  .concept--midnight-rose .eyebrow { margin-top: auto; color: #c89da0; font-size: .62rem; letter-spacing: .22em; }
+  .concept--midnight-rose h3 { max-width: 7ch; margin: 1rem 0 1.5rem; font-family: "Noto Serif TC", serif; font-size: clamp(4rem, 9vw, 8rem); font-weight: 400; letter-spacing: -.07em; line-height: 1.02; }
+  html[data-locale="en"] .concept--midnight-rose h3 { font-family: "Cormorant Garamond", serif; font-style: italic; line-height: .76; }
+  .concept--midnight-rose .intro { max-width: 27rem; color: #dfc5c3; line-height: 1.8; }
+  .concept--midnight-rose .cta { margin-top: 2rem; padding: .8rem 1.15rem; border: 1px solid #d2aaab; color: #fff1ed; }
+  .concept--midnight-rose .hero__image { width: min(38vw, 29rem); height: 72%; position: absolute; right: 8%; top: 12%; }
+  .concept--midnight-rose .hero__image::after { content: ""; position: absolute; inset: 0; background: rgba(83, 43, 55, .28); }
+  .concept--midnight-rose .hero__image img { filter: grayscale(.55) sepia(.18) saturate(.45) contrast(.9); object-position: center 57%; }
+
+  .concept--love-letter { background: #b3978e; }
+  .concept--love-letter .hero { padding: clamp(2rem, 5vw, 5rem); display: grid; background: #e8d8ca; color: #463631; }
+  .concept--love-letter .hero::before { content: "M / S"; position: absolute; right: 4%; top: 4%; color: rgba(104, 72, 65, .16); font: 500 clamp(5rem, 14vw, 13rem)/1 "Cormorant Garamond", serif; }
+  .concept--love-letter .hero__copy { padding: clamp(1rem, 5vw, 5rem) 0; position: relative; z-index: 2; }
+  .concept--love-letter .brand { color: #715850; font: 600 .78rem/1 "Cormorant Garamond", serif; letter-spacing: .34em; }
+  .concept--love-letter .eyebrow { margin-top: clamp(5rem, 11vw, 9rem); color: #896c63; font-size: .62rem; letter-spacing: .2em; }
+  .concept--love-letter h3 { max-width: 8ch; margin: 1.2rem 0 1.7rem; font-family: "Noto Serif TC", serif; font-size: clamp(3.5rem, 7vw, 6.8rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.1; }
+  html[data-locale="en"] .concept--love-letter h3 { font-family: "Cormorant Garamond", serif; font-style: italic; line-height: .82; }
+  .concept--love-letter .intro { max-width: 28rem; color: #69544d; line-height: 1.9; }
+  .concept--love-letter .cta { margin-top: 2.25rem; padding-bottom: .35rem; border-bottom: 1px solid #72554d; }
+  .concept--love-letter .hero__image { height: 25rem; margin-top: 2rem; padding: .75rem; background: #f2e6db; box-shadow: 0 1.2rem 2.5rem rgba(73, 48, 42, .16); transform: rotate(1.5deg); }
+  .concept--love-letter .hero__image img { filter: sepia(.32) grayscale(.18) saturate(.42); object-position: center 58%; }
+
+  @media (min-width: 48rem) {
+    .concept--quiet .hero { grid-template-columns: minmax(0, 1.35fr) minmax(20rem, .75fr); gap: clamp(3rem, 7vw, 8rem); }
+    .concept--quiet .hero__image { height: 72%; min-height: 34rem; }
+    .concept--japanese .hero { grid-template-columns: minmax(0, 1fr) minmax(22rem, .75fr); grid-template-rows: 1fr; gap: clamp(3rem, 8vw, 9rem); }
+    .concept--japanese .hero__image { margin: clamp(3rem, 6vw, 6rem) 2rem clamp(3rem, 6vw, 6rem) 0; }
+    .concept--nordic .hero { grid-template-columns: minmax(0, .8fr) minmax(25rem, 1.2fr); gap: clamp(3rem, 6vw, 7rem); }
+    .concept--nordic .hero__image { min-height: 43rem; margin-top: 0; }
+    .concept--bauhaus .hero { grid-template-columns: minmax(0, 1fr) minmax(24rem, .72fr); }
+    .concept--bauhaus .hero__image { min-height: 48rem; border-top: 0; border-left: 3px solid #151515; }
+    .concept--organic .hero { grid-template-columns: minmax(0, 1fr) minmax(23rem, .82fr); gap: clamp(3rem, 7vw, 8rem); }
+    .concept--organic .hero__image { min-height: 40rem; }
+    .concept--mediterranean .hero { grid-template-columns: minmax(0, 1fr) minmax(24rem, .8fr); gap: clamp(3rem, 7vw, 8rem); }
+    .concept--mediterranean .hero__copy { align-self: center; }
+    .concept--mediterranean .hero__image { min-height: 41rem; }
+    .concept--dusty-atelier .hero { grid-template-columns: minmax(0, 1fr) minmax(23rem, .78fr); gap: clamp(3rem, 7vw, 8rem); }
+    .concept--dusty-atelier .hero__image { min-height: 40rem; }
+    .concept--tea-rose .hero { grid-template-columns: minmax(0, 1.15fr) minmax(22rem, .72fr); gap: clamp(3rem, 9vw, 10rem); }
+    .concept--tea-rose .hero__image { min-height: 39rem; margin-block: 2rem; }
+    .concept--powder-romantic .hero { grid-template-columns: minmax(0, 1fr) minmax(24rem, .82fr); }
+    .concept--powder-romantic .hero__image { min-height: 49rem; }
+    .concept--morandi-sage .hero, .concept--morandi-clay .hero, .concept--morandi-blue .hero, .concept--morandi-lilac .hero { grid-template-columns: minmax(0, 1fr) minmax(23rem, .78fr); gap: clamp(3rem, 7vw, 8rem); }
+    .concept--morandi-sage .hero__image, .concept--morandi-clay .hero__image, .concept--morandi-blue .hero__image, .concept--morandi-lilac .hero__image { min-height: 40rem; }
+    .concept--quiet-rose .hero { grid-template-columns: minmax(0, 1.25fr) minmax(21rem, .75fr); gap: clamp(3rem, 8vw, 9rem); }
+    .concept--quiet-rose .hero__image { height: 74%; min-height: 35rem; }
+    .concept--tea-luxury .hero { grid-template-columns: minmax(0, 1fr) minmax(18rem, .55fr); gap: clamp(3rem, 7vw, 7rem); text-align: left; }
+    .concept--tea-luxury .hero__copy { align-items: flex-start; }
+    .concept--tea-luxury h3 { margin-inline: 0; }
+    .concept--tea-luxury .hero__image { min-height: 40rem; margin-top: 0; }
+    .concept--romantic-minimal .hero { grid-template-columns: minmax(0, 1.2fr) minmax(20rem, .62fr); gap: clamp(4rem, 10vw, 11rem); }
+    .concept--romantic-minimal .hero__image { height: 68%; min-height: 34rem; align-self: center; margin-top: 0; }
+    .concept--french-journal .hero { grid-template-columns: minmax(0, 1.05fr) minmax(22rem, .72fr); gap: clamp(2rem, 5vw, 6rem); }
+    .concept--french-journal .hero__image { min-height: 40rem; margin-top: 0; }
+    .concept--powder-mono .hero { grid-template-columns: minmax(0, 1fr) minmax(22rem, .82fr); gap: clamp(3rem, 7vw, 8rem); }
+    .concept--powder-mono .hero__image { min-height: 42rem; margin-top: 0; }
+    .concept--love-letter .hero { grid-template-columns: minmax(0, 1.2fr) minmax(21rem, .68fr); gap: clamp(3rem, 8vw, 9rem); }
+    .concept--love-letter .hero__image { min-height: 38rem; align-self: center; margin-top: 0; }
+  }
+
+  @media (max-width: 30rem) {
+    .lab-header span { display: none; }
+    .theme-nav { padding-inline: .75rem; }
+    .theme-nav > span { display: none; }
+    .concept { padding-inline: .75rem; }
+    .concept--romantic .hero__image, .concept--deco .hero__image, .concept--blush-collage .hero__image, .concept--muted-romantic .hero__image, .concept--antique-romantic .hero__image, .concept--romantic-atelier .hero__image, .concept--dusty-paper .hero__image, .concept--blush-atelier .hero__image, .concept--veiled-peony .hero__image, .concept--midnight-rose .hero__image { width: 55%; right: -14%; left: auto; opacity: .34; }
+    .concept--romantic .hero__copy, .concept--deco .hero__copy, .concept--blush-collage .hero__copy, .concept--muted-romantic .hero__copy, .concept--antique-romantic .hero__copy, .concept--romantic-atelier .hero__copy, .concept--dusty-paper .hero__copy, .concept--blush-atelier .hero__copy, .concept--veiled-peony .hero__copy, .concept--midnight-rose .hero__copy { position: relative; z-index: 2; }
+    .concept--romantic h3, .concept--deco h3, .concept--mauve-cocoa h3, .concept--blush-collage h3, .concept--muted-romantic h3, .concept--antique-romantic h3, .concept--romantic-atelier h3, .concept--dusty-paper h3, .concept--blush-atelier h3, .concept--veiled-peony h3, .concept--midnight-rose h3 { font-size: clamp(3.2rem, 16vw, 5rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .01ms !important; }
+  }
+</style>
