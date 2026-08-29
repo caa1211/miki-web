@@ -11,12 +11,12 @@ const locales = ['zh', 'en'] as const;
     return (
       <article class="about-page" data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
         <header class="editorial-hero page-shell">
-          <div class="editorial-hero__copy">
+          <div class="editorial-hero__copy" data-reveal="hero-copy">
             <p class="eyebrow">{copy.eyebrow}</p>
             <h1>{copy.title}</h1>
             <p class="editorial-lead">{copy.lead}</p>
           </div>
-          <figure class="editorial-hero__image"><img src={publicAsset('images/home/hero-campaign.jpg')} width="1200" height="1200" alt={copy.alts.hero} /></figure>
+          <figure class="editorial-hero__image" data-reveal="hero-image"><img src={publicAsset('images/home/hero-campaign.jpg')} width="1200" height="1200" alt={copy.alts.hero} data-parallax /></figure>
         </header>
 
         <section class="about-manifesto page-shell">

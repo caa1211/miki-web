@@ -19,16 +19,17 @@ const editorialImages: Record<ServiceKey, { src: string; width: number; height: 
 <BaseLayout localizedMeta={{ zh: service.content.zh.meta, en: service.content.en.meta }}>
   {locales.map((locale) => {
     const item = service.content[locale];
+    const serviceSections = sectionsFor(item);
     return (
       <article class={`service-page service-page--${service.variant}`} data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
         <header class="service-hero page-shell">
           <div class="service-hero__index" aria-hidden="true">{item.number}</div>
-          <div class="service-hero__copy">
+          <div class="service-hero__copy" data-reveal="hero-copy">
             <p class="service-kicker">{item.label}</p>
-            <h1>{item.title}</h1>
+            <h1 data-reveal="editorial-text">{item.title}</h1>
             <p class="service-lead">{item.lead}</p>
           </div>
-          <figure class="service-image">
+          <figure class="service-image" data-reveal="hero-image">
             <img
               src={publicAsset(service.image.src)}
               width={service.image.width}
@@ -37,6 +38,7 @@ const editorialImages: Record<ServiceKey, { src: string; width: number; height: 
               loading="eager"
               fetchpriority="high"
               decoding="async"
+              data-parallax
             />
             <figcaption><span>{item.number}</span><span>{item.label}</span></figcaption>
           </figure>
@@ -63,24 +65,47 @@ const editorialImages: Record<ServiceKey, { src: string; width: number; height: 
         </div>
 
         <div class="service-content page-shell">
-          {sectionsFor(item).map((section, index) => (
-            <>
-              <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'service-section--opening' : 'service-section--detail'}`}>
+          {serviceSections.slice(0, 2).map((section, index) => (
+            <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'} service-section--opening`}>
                 <div class="service-section__label"><span>{String(index + 1).padStart(2, '0')}</span><p>{section.eyebrow}</p></div>
                 <div class="service-section__body">
                   <h2>{section.title}</h2>
                   {section.body.map((paragraph) => <p>{paragraph}</p>)}
                   {section.points && <ul>{section.points.map((point) => <li>{point}</li>)}</ul>}
                 </div>
-              </section>
-              {index === 1 && (
-                <figure class="service-editorial-break">
-                  <img src={publicAsset(editorialImages[serviceKey].src)} width={editorialImages[serviceKey].width} height={editorialImages[serviceKey].height} alt={editorialImages[serviceKey].alt[locale]} loading="lazy" decoding="async" />
-                  <figcaption><span>{item.number}</span><span>MIKAMI STUDIO · HSINCHU</span></figcaption>
-                </figure>
-              )}
-            </>
+            </section>
           ))}
+          {serviceKey === 'waxing' ? (
+            <>
+              <figure class="service-editorial-break" data-reveal="image-soft">
+                <img src={publicAsset(editorialImages[serviceKey].src)} width={editorialImages[serviceKey].width} height={editorialImages[serviceKey].height} alt={editorialImages[serviceKey].alt[locale]} loading="lazy" decoding="async" data-parallax />
+                  <figcaption><span>{item.number}</span><span>MIKAMI STUDIO · HSINCHU</span></figcaption>
+              </figure>
+              {serviceSections.slice(2).map((section, offset) => {
+                const index = offset + 2;
+                return <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'} service-section--detail`}>
+                  <div class="service-section__label"><span>{String(index + 1).padStart(2, '0')}</span><p>{section.eyebrow}</p></div>
+                  <div class="service-section__body"><h2>{section.title}</h2>{section.body.map((paragraph) => <p>{paragraph}</p>)}{section.points && <ul>{section.points.map((point) => <li>{point}</li>)}</ul>}</div>
+                </section>;
+              })}
+            </>
+          ) : (
+            <div class="service-sticky-story">
+              <figure class="service-editorial-break" data-reveal="image-soft">
+                <img src={publicAsset(editorialImages[serviceKey].src)} width={editorialImages[serviceKey].width} height={editorialImages[serviceKey].height} alt={editorialImages[serviceKey].alt[locale]} loading="lazy" decoding="async" data-parallax />
+                <figcaption><span>{item.number}</span><span>MIKAMI STUDIO · HSINCHU</span></figcaption>
+              </figure>
+              <div class="service-sticky-story__copy">
+                {serviceSections.slice(2).map((section, offset) => {
+                  const index = offset + 2;
+                  return <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'} service-section--detail`}>
+                    <div class="service-section__label"><span>{String(index + 1).padStart(2, '0')}</span><p>{section.eyebrow}</p></div>
+                    <div class="service-section__body"><h2>{section.title}</h2>{section.body.map((paragraph) => <p>{paragraph}</p>)}{section.points && <ul>{section.points.map((point) => <li>{point}</li>)}</ul>}</div>
+                  </section>;
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         <section class="service-faq">

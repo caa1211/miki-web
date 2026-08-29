@@ -23,7 +23,7 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
     return (
       <article class="home-page" data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
         <header class="home-hero page-shell" aria-labelledby={`home-title-${locale}`}>
-          <div class="home-hero__copy">
+          <div class="home-hero__copy" data-reveal="hero-copy">
             <p class="editorial-label">{item.hero.eyebrow}</p>
             <h1 id={`home-title-${locale}`}>{item.hero.title}</h1>
             <p class="home-hero__intro">{item.hero.intro}</p>
@@ -32,8 +32,8 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
               <a class="text-link" href={`#services-${locale}`}>{item.hero.explore}<span aria-hidden="true">↘</span></a>
             </div>
           </div>
-          <figure class="home-hero__image">
-            <img src={homeHero} width="640" height="640" alt={item.hero.imageAlt} loading="eager" fetchpriority="high" decoding="async" />
+          <figure class="home-hero__image" data-reveal="hero-image">
+            <img src={homeHero} width="640" height="640" alt={item.hero.imageAlt} loading="eager" fetchpriority="high" decoding="async" data-parallax />
             <figcaption><span>MIKAMI / 01</span><span>PRIVATE · PROFESSIONAL · FOR WOMEN</span></figcaption>
           </figure>
         </header>
@@ -41,7 +41,7 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
         <section class="manifesto page-shell" aria-labelledby={`manifesto-title-${locale}`}>
           <p class="editorial-label">{item.manifesto.eyebrow}</p>
           <div class="manifesto__statement">
-            <h2 id={`manifesto-title-${locale}`}>{item.manifesto.title}</h2>
+            <h2 id={`manifesto-title-${locale}`} data-reveal="editorial-text">{item.manifesto.title}</h2>
             <p>{item.manifesto.body}</p>
           </div>
         </section>
@@ -57,7 +57,7 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
               const image = services[key].image;
               return (
                 <article class="home-service">
-                  <figure class="home-service__image">
+                  <figure class="home-service__image" data-reveal="image-soft">
                     <img src={serviceImages[key]} width={image.width} height={image.height} alt={image.alt[locale]} loading="lazy" decoding="async" />
                   </figure>
                   <div class="home-service__copy">
@@ -73,7 +73,7 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
         </section>
 
         <figure class="visual-break">
-          <img src={productDetail} width="1536" height="1024" alt={item.visual.alt} loading="lazy" decoding="async" />
+          <img src={productDetail} width="1536" height="1024" alt={item.visual.alt} loading="lazy" decoding="async" data-parallax />
           <figcaption class="page-shell">
             <span class="editorial-label">{item.visual.label}</span>
             <p>{item.visual.caption}</p>

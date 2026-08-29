@@ -21,6 +21,7 @@ const localeScript = `(() => {
   const locale = params.get('lang') === 'en' ? 'en' : 'zh';
   const root = document.documentElement;
   root.dataset.locale = locale;
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) root.dataset.motion = 'ready';
   root.lang = locale === 'en' ? 'en' : 'zh-Hant-TW';
   const titles = ${JSON.stringify({ zh: meta.zh.title, en: meta.en.title })};
   const descriptions = ${JSON.stringify({ zh: meta.zh.description, en: meta.en.description })};
@@ -109,5 +110,8 @@ const localeScript = `(() => {
     <Header />
     <main id="main-content" tabindex="-1"><slot /></main>
     <Footer />
+    <script>
+      import '../scripts/motion';
+    </script>
   </body>
 </html>
