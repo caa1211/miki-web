@@ -18,7 +18,11 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
     </nav>
     <div class="header-actions">
       <LanguageSwitcher />
-      <span class="booking-placeholder" aria-disabled="true"><LocalizedText zh={content.zh.nav.booking} en={content.en.nav.booking} /><span aria-hidden="true">→</span></span>
+      {siteConfig.bookingUrl ? (
+        <a class="header-booking" href={siteConfig.bookingUrl}><LocalizedText zh={content.zh.nav.booking} en={content.en.nav.booking} /><span aria-hidden="true">→</span></a>
+      ) : (
+        <span class="booking-placeholder" aria-disabled="true"><LocalizedText zh={content.zh.nav.booking} en={content.en.nav.booking} /></span>
+      )}
       <details class="mobile-nav">
         <summary><LocalizedText zh={content.zh.nav.menu} en={content.en.nav.menu} /><span aria-hidden="true"></span></summary>
         <nav class="mobile-nav__panel" aria-label={content.zh.navLabel} data-aria-zh={content.zh.navLabel} data-aria-en={content.en.navLabel}>

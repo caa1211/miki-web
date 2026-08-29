@@ -34,6 +34,7 @@ const sectionsFor = (item: LocalizedService) => [item.overview, item.suitable, i
             fetchpriority="high"
             decoding="async"
           />
+          <figcaption><span>{item.number}</span><span>{item.label}</span></figcaption>
         </figure>
 
         <nav class="service-nav page-shell" aria-label={serviceNavigation[locale].label}>
@@ -46,7 +47,7 @@ const sectionsFor = (item: LocalizedService) => [item.overview, item.suitable, i
 
         <div class="service-content page-shell">
           {sectionsFor(item).map((section, index) => (
-            <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'}`}>
+            <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'service-section--opening' : 'service-section--detail'}`}>
               <div class="service-section__label"><span>{String(index + 1).padStart(2, '0')}</span><p>{section.eyebrow}</p></div>
               <div class="service-section__body">
                 <h2>{section.title}</h2>
