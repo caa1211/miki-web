@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import { content } from '../i18n/content';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import LocalizedText from '../components/LocalizedText.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  localizedMeta?: {
+    zh: { title: string; description: string };
+    en: { title: string; description: string };
+  };
+}
+const { title = content.zh.meta.title, description = content.zh.meta.description, localizedMeta } = Astro.props;
+const meta = localizedMeta ?? { zh: { title, description }, en: content.en.meta };
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const localeScript = `(() => {
+  const params = new URLSearchParams(location.search);
+  const locale = params.get('lang') === 'en' ? 'en' : 'zh';
+  const root = document.documentElement;
+  root.dataset.locale = locale;
+  root.lang = locale === 'en' ? 'en' : 'zh-Hant-TW';
+  const titles = ${JSON.stringify({ zh: meta.zh.title, en: meta.en.title })};
+  const descriptions = ${JSON.stringify({ zh: meta.zh.description, en: meta.en.description })};
+  document.title = titles[locale];
+  document.querySelector('meta[name="description"]')?.setAttribute('content', descriptions[locale]);
+  const localizeControls = () => {
+    document.querySelectorAll('[data-language-link]').forEach((link) => {
+      const nextLocale = link.getAttribute('data-language-link');
+      const nextUrl = new URL(location.href);
+      nextUrl.searchParams.set('lang', nextLocale);
+      link.setAttribute('href', nextUrl.pathname + nextUrl.search + nextUrl.hash);
+      if (nextLocale === locale) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current');
+    });
+    document.querySelectorAll('[data-language-switcher]').forEach((switcher) => switcher.setAttribute('aria-label', locale === 'en' ? 'Choose language' : '選擇語言'));
+    document.querySelectorAll('[data-aria-zh]').forEach((element) => element.setAttribute('aria-label', element.getAttribute(locale === 'en' ? 'data-aria-en' : 'data-aria-zh')));
+    document.querySelectorAll('[data-preserve-query]').forEach((link) => {
+      const nextUrl = new URL(link.getAttribute('href'), location.origin);
+      for (const [key, value] of params) nextUrl.searchParams.set(key, value);
+      link.setAttribute('href', nextUrl.pathname + nextUrl.search + nextUrl.hash);
+    });
+    const normalizePath = (path) => path.replace(/\/+$/, '') || '/';
+    document.querySelectorAll('[data-site-link]').forEach((link) => {
+      const targetPath = new URL(link.getAttribute('href'), location.origin).pathname;
+      if (normalizePath(targetPath) === normalizePath(location.pathname)) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', localizeControls, { once: true }); else localizeControls();
+})();`;
+---
+<!doctype html>
+<html lang="zh-Hant-TW" data-locale="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={meta.zh.description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+    <title>{meta.zh.title}</title>
+    <script is:inline set:html={localeScript}></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content"><LocalizedText zh={content.zh.skipLink} en={content.en.skipLink} /></a>
+    <Header />
+    <main id="main-content" tabindex="-1"><slot /></main>
+    <Footer />
+  </body>
+</html>

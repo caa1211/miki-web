@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { locales } from '../i18n';
+import { services, serviceNavigation, type ServiceKey, type LocalizedService } from '../i18n/services';
+
+interface Props { serviceKey: ServiceKey }
+const { serviceKey } = Astro.props;
+const service = services[serviceKey];
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const sectionsFor = (item: LocalizedService) => [item.overview, item.suitable, item.process, item.preparation, item.aftercare, ...(item.considerations ? [item.considerations] : [])];
+---
+<BaseLayout localizedMeta={{ zh: service.content.zh.meta, en: service.content.en.meta }}>
+  {locales.map((locale) => {
+    const item = service.content[locale];
+    return (
+      <article class={`service-page service-page--${service.variant}`} data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
+        <header class="service-hero page-shell">
+          <div class="service-hero__index" aria-hidden="true">{item.number}</div>
+          <div class="service-hero__copy">
+            <p class="service-kicker">{item.label}</p>
+            <h1>{item.title}</h1>
+            <p class="service-lead">{item.lead}</p>
+          </div>
+          <div class="service-hero__mark" aria-hidden="true"><span>{item.label}</span></div>
+        </header>
+
+        <figure class="service-image page-shell">
+          <img
+            src={`${baseUrl}${service.image.src}`}
+            width={service.image.width}
+            height={service.image.height}
+            alt={service.image.alt[locale]}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+
+        <nav class="service-nav page-shell" aria-label={serviceNavigation[locale].label}>
+          {serviceNavigation[locale].items.map((navItem) => (
+            <a href={`${baseUrl}${services[navItem.key].slug}`} data-preserve-query aria-current={navItem.key === serviceKey ? 'page' : undefined}>
+              <span aria-hidden="true">{services[navItem.key].content[locale].number}</span>{navItem.name}
+            </a>
+          ))}
+        </nav>
+
+        <div class="service-content page-shell">
+          {sectionsFor(item).map((section, index) => (
+            <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'}`}>
+              <div class="service-section__label"><span>{String(index + 1).padStart(2, '0')}</span><p>{section.eyebrow}</p></div>
+              <div class="service-section__body">
+                <h2>{section.title}</h2>
+                {section.body.map((paragraph) => <p>{paragraph}</p>)}
+                {section.points && <ul>{section.points.map((point) => <li>{point}</li>)}</ul>}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <section class="service-faq">
+          <div class="page-shell service-faq__inner">
+            <div class="service-faq__heading"><p class="service-kicker">FAQ</p><h2>{item.faqTitle}</h2></div>
+            <div class="service-faq__items">
+              {item.faqs.map((faq) => (
+                <details><summary>{faq.question}<span aria-hidden="true"></span></summary><p>{faq.answer}</p></details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section class="service-closing page-shell">
+          <p class="service-kicker">{item.closing.eyebrow}</p>
+          <h2>{item.closing.title}</h2>
+          <p>{item.closing.body}</p>
+        </section>
+      </article>
+    );
+  })}
+</BaseLayout>

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.agents/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.log
