@@ -41,7 +41,7 @@ const localeScript = `(() => {
       for (const [key, value] of params) nextUrl.searchParams.set(key, value);
       link.setAttribute('href', nextUrl.pathname + nextUrl.search + nextUrl.hash);
     });
-    const normalizePath = (path) => path.replace(/\/+$/, '') || '/';
+    const normalizePath = (path) => path.replace(/\\\/+$/, '') || '/';
     document.querySelectorAll('[data-site-link]').forEach((link) => {
       const targetPath = new URL(link.getAttribute('href'), location.origin).pathname;
       if (normalizePath(targetPath) === normalizePath(location.pathname)) link.setAttribute('aria-current', 'page');
