@@ -3,6 +3,7 @@ import { content } from '../i18n/content';
 import { siteConfig } from '../config/site';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import LocalizedText from './LocalizedText.astro';
+import ArrowIcon from './ArrowIcon.astro';
 import { services, serviceNavigation } from '../i18n/services';
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
@@ -20,11 +21,12 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
       ))}
       <a href={`${baseUrl}cases`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.cases} en={content.en.nav.cases} /></a>
       <a href={`${baseUrl}about`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.about} en={content.en.nav.about} /></a>
+      <a href={`${baseUrl}faq`} data-preserve-query data-site-link><LocalizedText zh={content.zh.nav.faq} en={content.en.nav.faq} /></a>
     </nav>
     <div class="header-actions">
       <LanguageSwitcher />
       {siteConfig.bookingUrl ? (
-        <a class="header-booking" href={siteConfig.bookingUrl}><LocalizedText zh={content.zh.nav.booking} en={content.en.nav.booking} /><span aria-hidden="true">→</span></a>
+        <a class="header-booking" href={siteConfig.bookingUrl}><LocalizedText zh={content.zh.nav.booking} en={content.en.nav.booking} /><ArrowIcon /></a>
       ) : null}
       <details class="mobile-nav">
         <summary><LocalizedText zh={content.zh.nav.menu} en={content.en.nav.menu} /><span aria-hidden="true"></span></summary>

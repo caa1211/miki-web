@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { locales, utilityCopy } from '../i18n';
+import ArrowIcon from './ArrowIcon.astro';
+import { locales } from '../i18n';
 import { services, serviceNavigation, type ServiceKey, type LocalizedService } from '../i18n/services';
 import { siteConfig } from '../config/site';
 import { publicAsset } from '../utils/asset';
@@ -51,19 +52,6 @@ const editorialImages: Record<ServiceKey, { src: string; width: number; height: 
             </a>
           ))}
         </nav>
-        <div class="service-tools page-shell">
-          <button
-            class="service-share"
-            type="button"
-            data-share
-            data-share-label={utilityCopy[locale].share}
-            data-share-copied={utilityCopy[locale].copied}
-          >
-            <span>{utilityCopy[locale].share}</span><span aria-hidden="true">↗</span>
-          </button>
-          <span class="service-share__status" aria-live="polite"></span>
-        </div>
-
         <div class="service-content page-shell">
           {serviceSections.slice(0, 2).map((section, index) => (
             <section class={`service-section service-section--${index % 2 === 0 ? 'left' : 'right'} service-section--opening`}>
@@ -123,7 +111,7 @@ const editorialImages: Record<ServiceKey, { src: string; width: number; height: 
           <p class="service-kicker">{item.closing.eyebrow}</p>
           <h2>{item.closing.title}</h2>
           <p>{item.closing.body}</p>
-          <a class="primary-link" href={siteConfig.lineUrl}><span data-copy="zh">LINE 預約諮詢</span><span data-copy="en" lang="en">Consult on LINE</span><span aria-hidden="true">→</span></a>
+          <a class="primary-link" href={siteConfig.lineUrl}><span data-copy="zh">LINE 預約諮詢</span><span data-copy="en" lang="en">Consult on LINE</span><ArrowIcon /></a>
         </section>
       </article>
     );
