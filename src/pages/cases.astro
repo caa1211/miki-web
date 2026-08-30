@@ -37,7 +37,7 @@ const imageAlt = (file: string, index: number, locale: 'zh' | 'en') => {
     const item = copy[locale];
     return (
       <article class="cases-page" data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
-        <header class="cases-hero page-shell">
+        <header class="cases-hero page-shell" data-reveal="hero-copy">
           <p class="eyebrow">{item.eyebrow}</p>
           <h1>{item.title}</h1>
           <p>{item.lead}</p>
@@ -48,7 +48,7 @@ const imageAlt = (file: string, index: number, locale: 'zh' | 'en') => {
             const src = caseItem.fullSrc;
             const alt = imageAlt(caseItem.name, index, locale);
             return (
-              <figure class="case-gallery__item">
+              <figure class="case-gallery__item" data-reveal="image-soft">
                 <button type="button" data-case-open data-src={src} data-alt={alt} aria-label={`${item.open} ${index + 1}`}>
                   <Image src={caseItem.image} widths={[480, 768, 1200]} sizes="(min-width: 1200px) 31vw, (min-width: 768px) 48vw, 100vw" layout="constrained" format="webp" quality={78} alt={alt} loading="lazy" decoding="async" />
                   <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>

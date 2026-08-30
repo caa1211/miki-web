@@ -48,7 +48,7 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
         </section>
 
         <section class="home-services page-shell" id={`services-${locale}`} aria-labelledby={`services-title-${locale}`}>
-          <div class="home-services__heading">
+          <div class="home-services__heading" data-reveal="editorial-text">
             <p class="editorial-label">{item.services.eyebrow}</p>
             <h2 id={`services-title-${locale}`}>{item.services.title}</h2>
           </div>
@@ -61,7 +61,7 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
                   <figure class="home-service__image" data-reveal="image-soft">
                     <img src={serviceImages[key]} width={image.width} height={image.height} alt={image.alt[locale]} loading="lazy" decoding="async" />
                   </figure>
-                  <div class="home-service__copy">
+                  <div class="home-service__copy" data-reveal="from-side">
                     <div class="home-service__meta"><span>{serviceItem.number}</span><span>{serviceItem.label}</span></div>
                     <h3>{serviceItem.title}</h3>
                     <p>{serviceItem.description}</p>
@@ -81,16 +81,16 @@ const closingSkin = publicAsset('images/home/closing-skin.jpg');
           </figcaption>
         </figure>
 
-        <section class="philosophy page-shell" id={`philosophy-${locale}`} aria-labelledby={`philosophy-title-${locale}`}>
-          <div class="philosophy__heading">
+        <section class="philosophy" id={`philosophy-${locale}`} aria-labelledby={`philosophy-title-${locale}`}>
+          <div class="philosophy__heading" data-reveal="editorial-text">
             <p class="editorial-label">{item.philosophy.eyebrow}</p>
             <h2 id={`philosophy-title-${locale}`}>{item.philosophy.title}</h2>
             <p>{item.philosophy.intro}</p>
           </div>
-          <figure class="philosophy__detail" aria-hidden="true">
+          <figure class="philosophy__detail" aria-hidden="true" data-reveal="image-soft">
             <img src={serumHands} width="1800" height="1200" alt="" loading="lazy" decoding="async" />
           </figure>
-          <ol class="philosophy__values">
+          <ol class="philosophy__values" data-reveal="from-side">
             {item.philosophy.values.map((value) => (
               <li><span aria-hidden="true">{value.number}</span><div><h3>{value.title}</h3><p>{value.body}</p></div></li>
             ))}

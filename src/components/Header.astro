@@ -6,7 +6,7 @@ import LocalizedText from './LocalizedText.astro';
 import { services, serviceNavigation } from '../i18n/services';
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
-<header class="site-header">
+<header class="site-header" data-site-header>
   <div class="site-header__inner page-shell">
     <a class="wordmark" href={baseUrl} data-preserve-query data-site-link aria-label={`${siteConfig.brandName} home`}>
       <span class="wordmark__name">{siteConfig.brandName}</span>
@@ -46,3 +46,21 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
     </div>
   </div>
 </header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  let frame = 0;
+
+  const updateHeader = () => {
+    frame = 0;
+    header?.toggleAttribute('data-scrolled', window.scrollY > 12);
+  };
+
+  const requestHeaderUpdate = () => {
+    if (frame) return;
+    frame = window.requestAnimationFrame(updateHeader);
+  };
+
+  window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
+  updateHeader();
+</script>

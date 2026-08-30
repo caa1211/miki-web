@@ -14,6 +14,25 @@ const studioImages = sortedAssets(import.meta.glob<ImageModule>('../assets/studi
 const workImages = sortedAssets(import.meta.glob<ImageModule>('../assets/about/work/*.{avif,jpeg,jpg,png,webp,AVIF,JPEG,JPG,PNG,WEBP}', { eager: true }));
 const certificateSources = sortedAssets(import.meta.glob<ImageModule>('../assets/about/certificates/*.{avif,jpeg,jpg,png,webp,AVIF,JPEG,JPG,PNG,WEBP}', { eager: true }));
 const certificateImages = await Promise.all(certificateSources.map(async (item) => ({ ...item, fullSrc: (await getImage({ src: item.image, width: 2400, format: 'webp', quality: 82 })).src })));
+const studioProcessed = await Promise.all(studioImages.map(async (item) => ({ ...item, fullSrc: (await getImage({ src: item.image, width: 2400, format: 'webp', quality: 80 })).src })));
+const scannedRecords = [
+  { src: publicAsset('images/photos/S__109322290.jpg'), width: 1131, height: 1447 },
+  { src: publicAsset('images/photos/S__109322291.jpg'), width: 1076, height: 1522 },
+  { src: publicAsset('images/photos/S__109322292.jpg'), width: 1706, height: 960 },
+];
+const newStudioImages = [
+  { src: publicAsset('images/photos/S__109322276.jpg'), width: 1536, height: 1025 },
+  { src: publicAsset('images/photos/S__109322277.jpg'), width: 1045, height: 1565 },
+  { src: publicAsset('images/photos/S__109322278.jpg'), width: 1108, height: 1477 },
+];
+const studioFeatured = [
+  ...studioProcessed.slice(0, 5).map((item) => ({ kind: 'asset' as const, ...item })),
+];
+const studioArchive = [
+  { src: publicAsset('images/photos/S__109322285.jpg'), thumbnail: null, name: 'S__109322285.jpg', width: 1108, height: 1477 },
+  ...studioProcessed.slice(5).map((item) => ({ src: item.fullSrc, thumbnail: item.image, name: item.name })),
+  ...newStudioImages.map((item, index) => ({ thumbnail: null, name: `S__10932227${index + 6}.jpg`, ...item })),
+];
 const visitCopy = {
   zh: {
     eyebrow: 'THE STUDIO', title: '一個安靜、清楚，也尊重界線的空間。',
@@ -41,8 +60,13 @@ const storyCopy = {
     workBody: 'From preparation and considered technique to aftercare guidance, each step is grounded in clarity, hygiene, and respect.', workGallery: 'Mikami Studio at work',
     credentialsEyebrow: 'PROFESSIONAL RECORDS', credentialsTitle: 'Continual learning is part of caring well.',
     credentialsBody: 'Certificates and training records reflect an ongoing commitment to professional technique. Select an image to view it in full.', credentialsGallery: 'Certificates and training records',
+    documentsGallery: 'Professional documents', studioArchive: 'More studio photographs',
     openImage: 'View image', closeImage: 'Close image',
   },
+} as const;
+const mediaLabels = {
+  zh: { documents: '專業文件', studioArchive: '更多空間照片', viewMore: '查看更多空間照片' },
+  en: { documents: 'Professional documents', studioArchive: 'More studio photographs', viewMore: 'View more photographs' },
 } as const;
 const mapQuery = encodeURIComponent(siteConfig.address);
 const mapEmbedUrl = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
@@ -63,79 +87,112 @@ const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`
         </header>
 
         <section class="about-manifesto page-shell">
-          <div class="about-manifesto__copy">
+          <div class="about-manifesto__copy" data-reveal="editorial-text">
             <p class="eyebrow">{copy.philosophy.eyebrow}</p>
             <h2>{copy.philosophy.title}</h2>
             {copy.philosophy.body.map((paragraph) => <p>{paragraph}</p>)}
           </div>
-          <figure><img src={publicAsset('images/shared/serum-hands.jpg')} width="1800" height="1200" loading="lazy" alt={copy.alts.detail} /></figure>
+          <figure data-reveal="image-soft"><img src={publicAsset('images/shared/serum-hands.jpg')} width="1800" height="1200" loading="lazy" alt={copy.alts.detail} /></figure>
         </section>
 
         <section class="about-values page-shell" aria-label={copy.philosophy.eyebrow}>
-          {copy.values.map((value) => <article><span>{value.number}</span><h2>{value.title}</h2><p>{value.body}</p></article>)}
+          {copy.values.map((value) => <article data-reveal="from-side"><span>{value.number}</span><h2>{value.title}</h2><p>{value.body}</p></article>)}
         </section>
 
         <section class="about-experience">
-          <figure><img src={publicAsset('images/shared/skincare-products.jpg')} width="1800" height="1200" loading="lazy" alt={copy.alts.still} /></figure>
-          <div class="about-experience__copy">
+          <figure data-reveal="image-soft"><img src={publicAsset('images/shared/skincare-products.jpg')} width="1800" height="1200" loading="lazy" alt={copy.alts.still} /></figure>
+          <div class="about-experience__copy" data-reveal="from-side">
             <p class="eyebrow">{copy.experience.eyebrow}</p><h2>{copy.experience.title}</h2>
             {copy.experience.body.map((paragraph) => <p>{paragraph}</p>)}
           </div>
         </section>
 
         <section class="work-story page-shell" aria-labelledby={`work-title-${locale}`}>
-          <div class="work-story__heading">
+          <div class="work-story__heading" data-reveal="editorial-text">
             <p class="eyebrow">{storyCopy[locale].workEyebrow}</p>
             <h2 id={`work-title-${locale}`}>{storyCopy[locale].workTitle}</h2>
             <p>{storyCopy[locale].workBody}</p>
           </div>
           <div class="work-story__gallery" aria-label={storyCopy[locale].workGallery}>
             {workImages.map((item, index) => (
-              <figure><Image src={item.image} widths={[480, 768, 1200]} sizes="(min-width: 768px) 58vw, 100vw" layout="constrained" format="webp" quality={76} loading="lazy" decoding="async" alt={`${storyCopy[locale].workGallery} ${index + 1}`} /></figure>
+              <figure data-reveal="image-soft"><Image src={item.image} widths={[480, 768, 1200]} sizes="(min-width: 768px) 58vw, 100vw" layout="constrained" format="webp" quality={76} loading="lazy" decoding="async" alt={`${storyCopy[locale].workGallery} ${index + 1}`} /></figure>
             ))}
           </div>
         </section>
 
         <section class="credentials-story" aria-labelledby={`credentials-title-${locale}`}>
           <div class="credentials-story__inner page-shell">
-            <div class="credentials-story__heading">
+            <div class="credentials-story__heading" data-reveal="editorial-text">
               <p class="eyebrow">{storyCopy[locale].credentialsEyebrow}</p>
               <h2 id={`credentials-title-${locale}`}>{storyCopy[locale].credentialsTitle}</h2>
               <p>{storyCopy[locale].credentialsBody}</p>
             </div>
-            <div class="credentials-story__gallery" aria-label={storyCopy[locale].credentialsGallery}>
+            <div class="credentials-story__media" data-reveal="from-side">
+              <div class="credentials-story__gallery" aria-label={storyCopy[locale].credentialsGallery}>
               {certificateImages.map((item, index) => {
                 const src = item.fullSrc;
                 const alt = `${storyCopy[locale].credentialsGallery} ${index + 1}`;
                 return (
                   <figure>
-                    <button type="button" data-about-image-open data-src={src} data-alt={alt} aria-label={`${storyCopy[locale].openImage} ${index + 1}`}>
+                    <button type="button" data-about-image-open data-gallery={`credentials-${locale}`} data-index={index} data-src={src} data-alt={alt} aria-label={`${storyCopy[locale].openImage} ${index + 1}`}>
                       <Image src={item.image} widths={[480, 768, 1100]} sizes="(min-width: 768px) 34vw, 100vw" layout="constrained" format="webp" quality={78} loading="lazy" decoding="async" alt={alt} />
                     </button>
                     <figcaption>{String(index + 1).padStart(2, '0')} / MIKAMI STUDIO</figcaption>
                   </figure>
                 );
               })}
+              </div>
+              <div class="credentials-story__documents" aria-label={mediaLabels[locale].documents}>
+              {scannedRecords.map((item, index) => {
+                const imageIndex = certificateImages.length + index;
+                const alt = `${mediaLabels[locale].documents} ${index + 1}`;
+                return (
+                  <figure>
+                    <button type="button" data-about-image-open data-gallery={`credentials-${locale}`} data-index={imageIndex} data-src={item.src} data-alt={alt} aria-label={`${storyCopy[locale].openImage} ${imageIndex + 1}`}>
+                      <img src={item.src} width={item.width} height={item.height} loading="lazy" decoding="async" alt={alt} />
+                    </button>
+                    <figcaption>{String(imageIndex + 1).padStart(2, '0')} / MIKAMI STUDIO</figcaption>
+                  </figure>
+                );
+              })}
+              </div>
             </div>
           </div>
         </section>
 
         <section class="studio-introduction page-shell" aria-labelledby={`studio-title-${locale}`}>
-          <div class="studio-introduction__copy">
+          <div class="studio-introduction__copy" data-reveal="editorial-text">
             <p class="eyebrow">{visitCopy[locale].eyebrow}</p>
             <h2 id={`studio-title-${locale}`}>{visitCopy[locale].title}</h2>
             <p>{visitCopy[locale].body}</p>
           </div>
           <div class="studio-gallery" aria-label={visitCopy[locale].gallery}>
-            {studioImages.length ? studioImages.map((item, index) => (
-              <figure><Image src={item.image} widths={[480, 768, 1200]} sizes="(min-width: 768px) 58vw, 100vw" layout="constrained" format="webp" quality={76} loading="lazy" decoding="async" alt={`${visitCopy[locale].gallery} ${index + 1}`} /></figure>
+            {studioFeatured.length ? studioFeatured.map((item, index) => (
+              <figure data-reveal="image-soft">
+                <Image src={item.image} widths={[480, 768, 1200]} sizes="(min-width: 768px) 58vw, 100vw" layout="constrained" format="webp" quality={76} loading="lazy" decoding="async" alt={`${visitCopy[locale].gallery} ${index + 1}`} />
+              </figure>
             )) : <p class="studio-gallery__empty">{visitCopy[locale].empty}</p>}
+          </div>
+          <div class="studio-archive" aria-label={mediaLabels[locale].studioArchive} data-reveal="from-side">
+            <div class="studio-archive__previews">
+            {studioArchive.map((item, index) => {
+              const alt = `${mediaLabels[locale].studioArchive} ${index + 1}`;
+              return (
+                <button class:list={{ 'studio-archive__hidden-item': index >= 3 }} type="button" data-about-image-open data-gallery={`studio-${locale}`} data-index={index} data-src={item.src} data-alt={alt} aria-label={`${storyCopy[locale].openImage} ${index + 1}`}>
+                  {item.thumbnail ? <Image src={item.thumbnail} widths={[240, 360]} sizes="10rem" format="webp" quality={70} loading="lazy" decoding="async" alt={alt} /> : <img src={item.src} width={item.width} height={item.height} loading="lazy" decoding="async" alt={alt} />}
+                </button>
+              );
+            })}
+            </div>
+            <button class="studio-archive__more" type="button" data-about-gallery-more data-gallery={`studio-${locale}`}>
+              <span>{mediaLabels[locale].viewMore}</span><span>{String(studioArchive.length).padStart(2, '0')} <span aria-hidden="true">→</span></span>
+            </button>
           </div>
         </section>
 
         <section class="visit-us" aria-labelledby={`visit-title-${locale}`}>
           <div class="visit-us__inner page-shell">
-            <div class="visit-us__copy">
+            <div class="visit-us__copy" data-reveal="editorial-text">
               <p class="eyebrow">{visitCopy[locale].visit}</p>
               <h2 id={`visit-title-${locale}`}>{siteConfig.brandName}</h2>
               <dl>
@@ -144,13 +201,13 @@ const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`
               </dl>
               <a class="text-link" href={mapLinkUrl} target="_blank" rel="noreferrer">{visitCopy[locale].mapLink}<span aria-hidden="true">↗</span></a>
             </div>
-            <div class="visit-us__map">
+            <div class="visit-us__map" data-reveal="image-soft">
               <iframe src={mapEmbedUrl} title={visitCopy[locale].map} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
           </div>
         </section>
 
-        <section class="editorial-closing page-shell">
+        <section class="editorial-closing page-shell" data-reveal="editorial-text">
           <p class="eyebrow">{copy.closing.eyebrow}</p><h2>{copy.closing.title}</h2><p>{copy.closing.body}</p>
           <a class="primary-link" href={siteConfig.lineUrl}>{copy.closing.action}<span aria-hidden="true">→</span></a>
         </section>
@@ -161,20 +218,52 @@ const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`
   <dialog class="media-lightbox" data-about-image-dialog aria-label={storyCopy.zh.closeImage} data-aria-zh={storyCopy.zh.closeImage} data-aria-en={storyCopy.en.closeImage}>
     <div class="media-lightbox__surface">
       <button type="button" class="media-lightbox__close" data-about-image-close><span data-copy="zh">關閉</span><span data-copy="en">Close</span></button>
+      <button type="button" class="media-lightbox__nav media-lightbox__nav--previous" data-about-image-previous aria-label="Previous image">←</button>
       <img data-about-image src="" alt="" />
+      <button type="button" class="media-lightbox__nav media-lightbox__nav--next" data-about-image-next aria-label="Next image">→</button>
     </div>
   </dialog>
 
   <script>
     const dialog = document.querySelector<HTMLDialogElement>('[data-about-image-dialog]');
     const image = dialog?.querySelector<HTMLImageElement>('[data-about-image]');
+    const previous = dialog?.querySelector<HTMLButtonElement>('[data-about-image-previous]');
+    const next = dialog?.querySelector<HTMLButtonElement>('[data-about-image-next]');
+    let gallery: HTMLButtonElement[] = [];
+    let currentIndex = 0;
+    const showImage = (index: number) => {
+      if (!image || !gallery.length) return;
+      currentIndex = (index + gallery.length) % gallery.length;
+      const button = gallery[currentIndex];
+      image.src = button.dataset.src ?? '';
+      image.alt = button.dataset.alt ?? '';
+      const hasMultiple = gallery.length > 1;
+      if (previous) previous.hidden = !hasMultiple;
+      if (next) next.hidden = !hasMultiple;
+    };
     document.querySelectorAll<HTMLButtonElement>('[data-about-image-open]').forEach((button) => {
       button.addEventListener('click', () => {
         if (!dialog || !image) return;
-        image.src = button.dataset.src ?? '';
-        image.alt = button.dataset.alt ?? '';
+        const galleryName = button.dataset.gallery;
+        gallery = Array.from(document.querySelectorAll<HTMLButtonElement>(`[data-about-image-open][data-gallery="${galleryName}"]`));
+        showImage(Number(button.dataset.index ?? 0));
         dialog.showModal();
       });
+    });
+    document.querySelectorAll<HTMLButtonElement>('[data-about-gallery-more]').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (!dialog || !image) return;
+        const galleryName = button.dataset.gallery;
+        gallery = Array.from(document.querySelectorAll<HTMLButtonElement>(`[data-about-image-open][data-gallery="${galleryName}"]`));
+        showImage(0);
+        dialog.showModal();
+      });
+    });
+    previous?.addEventListener('click', () => showImage(currentIndex - 1));
+    next?.addEventListener('click', () => showImage(currentIndex + 1));
+    dialog?.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') showImage(currentIndex - 1);
+      if (event.key === 'ArrowRight') showImage(currentIndex + 1);
     });
     dialog?.querySelector('[data-about-image-close]')?.addEventListener('click', () => dialog.close());
     dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
