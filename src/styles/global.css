@@ -299,6 +299,37 @@ html[data-locale="en"] .cases-hero h1 { font-family: var(--font-display-latin); 
 .case-gallery__item button > span { position: absolute; right: .85rem; bottom: .7rem; font-family: var(--font-display-latin); font-size: .72rem; letter-spacing: .12em; text-shadow: 0 1px 8px rgb(0 0 0 / .35); }
 .case-gallery__item figcaption { padding-top: .75rem; color: var(--color-muted); font-size: .7rem; letter-spacing: .06em; }
 .case-gallery__empty { min-height: 22rem; margin: 0; padding: 3rem 0; display: flex; align-items: center; border-block: 1px solid var(--color-border); color: var(--color-muted); }
+.case-reviews { background: var(--color-pink-soft); }
+.case-reviews__inner { max-width: 78rem; padding-block: clamp(5.5rem, 9vw, 8rem); }
+.case-reviews__heading { max-width: 48rem; padding-top: .25rem; }
+.case-reviews__heading h2 { max-width: 16ch; margin: 1.15rem 0 0; font-family: var(--font-display-cjk); font-size: clamp(2.75rem, 5vw, 4.8rem); font-weight: 400; line-height: 1.04; letter-spacing: -.035em; text-wrap: balance; }
+.case-reviews__summary { width: 100%; margin-top: clamp(2.5rem, 4vw, 4rem); }
+.case-reviews__score-summary { margin-bottom: 1.5rem; display: flex; align-items: center; flex-wrap: wrap; gap: .5rem .9rem; }
+.case-reviews__score { font-family: var(--font-display-latin); font-size: 2rem; line-height: 1; }
+.case-reviews__stars { display: flex; gap: .2rem; color: var(--color-rose-deep); }
+.case-reviews__stars svg { display: block; fill: currentColor; }
+.case-reviews__rating-source { color: var(--color-muted); font-size: .75rem; letter-spacing: .04em; }
+.case-reviews__list { display: grid; gap: 1.25rem; }
+.case-review { min-height: 100%; padding: clamp(1.5rem, 3vw, 2.25rem); display: flex; flex-direction: column; border: 1px solid rgb(105 70 77 / .2); background: rgb(247 237 239 / .58); box-shadow: 0 .75rem 2rem rgb(63 47 50 / .035); transition-property: opacity, transform, border-color, background-color, box-shadow !important; }
+.case-review:hover { border-color: rgb(105 70 77 / .38); background: rgb(247 237 239 / .82); box-shadow: 0 1rem 2.5rem rgb(63 47 50 / .075); transform: translateY(-.2rem); }
+html[data-motion="ready"] .case-review[data-revealed="true"]:hover { transform: translateY(-.2rem); }
+.case-review__meta { display: flex; justify-content: space-between; gap: 1rem; color: var(--color-muted); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; }
+.case-review__meta-rating { display: flex; align-items: center; gap: .75rem; }
+.case-review__rating { display: flex; gap: .16rem; color: var(--color-rose-deep); }
+.case-review__rating svg { display: block; fill: currentColor; }
+.case-review blockquote { margin: 1.5rem 0 1.75rem; flex: 1; }
+.case-review blockquote p { margin: 0; font-family: var(--font-body); font-size: clamp(.95rem, 1.15vw, 1.08rem); line-height: 1.85; letter-spacing: .01em; }
+html[data-locale="en"] .case-review blockquote p { font-family: var(--font-body); font-size: clamp(1rem, 1.2vw, 1.12rem); line-height: 1.75; }
+.case-review__author { margin: 0; display: flex; align-items: center; gap: .75rem; font-size: .75rem; }
+.case-review__avatar { width: 2.35rem; height: 2.35rem; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid rgb(105 70 77 / .22); border-radius: 50%; background: var(--color-pink-soft); color: var(--color-rose-deep); }
+.case-review__avatar svg { width: 1.55rem; height: 1.55rem; fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; }
+.case-review__identity { min-width: 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: .25rem .65rem; }
+.case-review__author a { font-weight: 600; text-decoration: none; }
+.case-review__author a:hover { text-decoration: underline; }
+html[data-motion="ready"] .case-review[data-reveal] { transition-delay: calc(var(--review-index) * 90ms); }
+.case-reviews__link { min-height: 2.75rem; width: fit-content; margin: 1.5rem 0 0 auto; padding-bottom: .2rem; display: flex; align-items: center; gap: 1.1rem; border-bottom: 1px solid currentColor; color: inherit; font-size: .78rem; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+.case-reviews__link [aria-hidden="true"] { transition: transform 240ms ease; }
+.case-reviews__link:hover [aria-hidden="true"] { transform: translateX(.3rem); }
 .case-lightbox { width: min(92vw, 78rem); max-width: none; max-height: 92dvh; padding: 3.5rem 1rem 1rem; overflow: auto; border: 0; background: var(--color-cocoa-deep); color: var(--color-canvas); }
 .case-lightbox[open] { position: fixed; inset: 0; margin: auto; display: flex; align-items: center; justify-content: center; }
 .case-lightbox::backdrop { background: rgb(36 28 30 / .82); }
@@ -488,6 +519,11 @@ html[data-motion="ready"] [data-reveal][data-revealed="true"] { opacity: 1; tran
 @media (min-width: 48rem) {
   .service-hero { grid-template-columns: 3rem minmax(0, 5fr) minmax(18rem, 5.25fr); }
   .editorial-hero { grid-template-columns: minmax(0, 5fr) minmax(22rem, 5fr); }
+}
+
+@media (min-width: 64rem) {
+  .case-reviews__list { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .case-review { grid-column: span 2; }
 }
 
 @media (max-width: 30rem) {

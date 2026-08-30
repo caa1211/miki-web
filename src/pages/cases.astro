@@ -2,6 +2,7 @@
 import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
 
 const locales = ['zh', 'en'] as const;
 const copy = {
@@ -21,6 +22,57 @@ const copy = {
   },
 } as const;
 
+const reviewCopy = {
+  zh: {
+    eyebrow: 'GOOGLE REVIEWS',
+    title: '真實感受，留在每一次被好好對待之後。',
+    action: '查看 Google 評論',
+    excerpt: '評論節錄',
+    rating: '5 星評價',
+    score: '5.0',
+    ratingSource: '所有評價皆為五星',
+    reviews: [
+      { author: '羅Mandi', time: '4 年前', url: 'https://www.google.com/maps/contrib/103916078081182280128/reviews', quote: '環境與設備皆令人感到用心，看得到滅菌的器械更是讓人放心，過程中有專業的除毛師細心溫柔的手法，整體感受舒適且愉悅，一試便成主顧！❤️' },
+      { author: 'Maggie Liu', time: '9 個月前', url: 'https://www.google.com/maps/contrib/117054751350907628419/reviews', quote: '全程只使用棉花棒，沒有針具、不破皮，真的很安心。自己也認真保濕兩個多月，明顯改善暗沉，現在只擦護唇膏氣色也很自然😍 超開心，感謝遇到 Miki 和這麼棒的粉嫩術。' },
+      { author: '綺ㄦ', time: '1 年前', url: 'https://www.google.com/maps/contrib/116270974606341269080/reviews', quote: '第一次體驗，這裡環境非常舒服，私密處熱蠟完全不痛！非常推薦！' },
+      { author: 'Zoe Lee', time: '4 年前', url: 'https://www.google.com/maps/contrib/115125429901818347755/reviews', quote: '闆娘非常細心，她想要「專注做好一件事情」的態度讓我很欽佩。從事前衛教、事後保養到過程中的情緒，都被好好照顧。非常推，而且是大推！👍👍👍' },
+      { author: 'Liv Kuo', time: '4 年前', url: 'https://www.google.com/maps/contrib/115150908056876865517/reviews', quote: '真的很喜歡這裡～～🤩🤩🤩 第一次除毛帶著不安緊張感，但在這裡我完全可以很放鬆。從預約時的小提醒、除毛前的衛教到除毛後，都讓我感受到專業和細心～超級推薦😆😆' },
+      { author: 'DingDing', time: '3 年前', url: siteConfig.googleReviewsUrl, quote: '闆娘細心又溫柔，讓人覺得安心又放鬆。環境很乾淨，連小細毛都處理得很仔細，也會針對不同的毛使用不同的蠟操作，所以非常推薦！' },
+      { author: 'Chiaya Koto', url: siteConfig.googleReviewsUrl, quote: '闆娘真的非常專業又細心～還很貼心地教關於如何保養的知識，每一次光顧都是非常好的體驗，完全沒有不舒適的感覺～🥰🥰🥰' },
+      { author: 'Joanna Chang', url: siteConfig.googleReviewsUrl, quote: 'Mikami😊專業又細心、溫柔。整體感受舒適且愉悅～重點是器具的消毒，衛生又安心❤️ Mikami 是我命定的除毛師惹😘😘😘' },
+      { author: 'Emma', url: siteConfig.googleReviewsUrl, quote: '超級專業的除毛師，施作前完整說明毛的生長與注意事項。不論是施作中或完成後皆沒有痛感，也沒有用夾子夾細毛就可以除得非常乾淨。後續也不時關心皮膚狀況，真的是技術好又貼心的除毛師。' },
+      { author: 'R K', url: siteConfig.googleReviewsUrl, quote: '我本來腋下都用刮的，愈刮愈粗、肌膚暗沉；去熱蠟除毛後覺得實在太光滑舒服，毛髮也明顯細軟很多。不過定期給專業的老師除毛就是不一樣，過程舒服不緊張🤩' },
+      { author: 'Jean Chang', url: siteConfig.googleReviewsUrl, quote: '很專業的除毛師☺️ 衛教很多不知道的保養知識，對於初次除毛會害怕的自己，老闆娘會像朋友般聊天～意外地放鬆、沒有尷尬感～重點是技術很優！下次要再去私密除毛❤️' },
+      { author: '蔡佩娟', url: siteConfig.googleReviewsUrl, quote: '很親切、細心，而且環境乾淨舒適，闆娘可愛又非常好聊天，可以輕鬆放心交給她。如果是第一次除毛請放心，除毛前會先衛教，也會說明除毛後的照顧方式。真心推薦👍💫' },
+      { author: '吳書妃', url: siteConfig.googleReviewsUrl, quote: '第一次體驗除毛就是在這裡！闆娘細心告訴拔毛過程與之後需注意的事，是一個很用心的服務態度🥰 過程中的感受也是可以接受的，完成後心情超好！' },
+    ],
+  },
+  en: {
+    eyebrow: 'GOOGLE REVIEWS',
+    title: 'Thoughtful care, reflected in genuine experiences.',
+    action: 'View Google reviews',
+    excerpt: 'Review excerpt',
+    rating: '5 out of 5 stars',
+    score: '5.0',
+    ratingSource: 'Every review is five stars',
+    reviews: [
+      { author: 'Mandi Lo', time: '4 years ago', url: 'https://www.google.com/maps/contrib/103916078081182280128/reviews', quote: 'The care given to the environment and equipment is clear, and seeing the sterilized instruments felt especially reassuring. The specialist’s attentive, gentle technique made the whole experience comfortable and pleasant—one visit was enough to make me a regular ❤️' },
+      { author: 'Maggie Liu', time: '9 months ago', url: 'https://www.google.com/maps/contrib/117054751350907628419/reviews', quote: 'Only cotton swabs were used throughout—no needles and no broken skin—which felt very reassuring. After more than two months of consistent moisturizing, the dullness visibly improved, and lip balm alone now gives me a naturally healthy look 😍 I’m so happy to have found Miki and this wonderful care.' },
+      { author: 'Chi Er', time: '1 year ago', url: 'https://www.google.com/maps/contrib/116270974606341269080/reviews', quote: 'It was my first visit. The studio felt very comfortable, and the intimate waxing did not hurt at all. Highly recommended.' },
+      { author: 'Zoe Lee', time: '4 years ago', url: 'https://www.google.com/maps/contrib/115125429901818347755/reviews', quote: 'Her care and dedication to doing one thing well truly stood out. From the guidance before treatment and aftercare to the emotional reassurance throughout, everything felt thoughtfully handled. Highly—and wholeheartedly—recommended 👍👍👍' },
+      { author: 'Liv Kuo', time: '4 years ago', url: 'https://www.google.com/maps/contrib/115150908056876865517/reviews', quote: 'I really love this place 🤩🤩🤩 I arrived nervous for my first waxing experience, but felt completely at ease. From the appointment reminders and guidance beforehand to the care afterward, everything felt professional and attentive. Highly recommended 😆😆' },
+      { author: 'DingDing', time: '3 years ago', url: siteConfig.googleReviewsUrl, quote: 'The owner is attentive and gentle, making every visit feel reassuring and relaxed. The studio is very clean, even the finest hairs are treated carefully, and different waxes are selected for different hair types. Highly recommended.' },
+      { author: 'Chiaya Koto', url: siteConfig.googleReviewsUrl, quote: 'She is truly professional and attentive, and thoughtfully shares guidance on how to care for the skin. Every visit has been a wonderful experience, without any discomfort at all 🥰🥰🥰' },
+      { author: 'Joanna Chang', url: siteConfig.googleReviewsUrl, quote: 'Mikami 😊 is professional, attentive, and gentle. The whole experience feels comfortable and pleasant. Most importantly, the instruments are carefully sterilized, which feels hygienic and reassuring ❤️ Mikami is the waxing specialist for me 😘😘😘' },
+      { author: 'Emma', url: siteConfig.googleReviewsUrl, quote: 'An exceptionally professional waxing specialist who clearly explained hair growth and aftercare before the treatment. The experience felt comfortable, even the fine hairs were removed thoroughly without tweezers, and she continued to check on my skin afterward. Skilled and genuinely thoughtful.' },
+      { author: 'R K', url: siteConfig.googleReviewsUrl, quote: 'I used to shave my underarms, which left the hair feeling coarser and the skin looking dull. After waxing, the skin felt incredibly smooth and comfortable, and the hair felt noticeably finer. Having regular care from a professional really is different—the whole process felt comfortable and relaxed 🤩' },
+      { author: 'Jean Chang', url: siteConfig.googleReviewsUrl, quote: 'A very professional waxing specialist ☺️ She shared so much aftercare knowledge I had not known before. As someone nervous about a first waxing appointment, chatting with her like a friend made the experience unexpectedly relaxed and never awkward. Her technique is excellent, too—I will be back ❤️' },
+      { author: 'Pei-Chuan Tsai', url: siteConfig.googleReviewsUrl, quote: 'Warm, attentive, and welcoming, with a clean and comfortable studio. First-time guests can feel reassured: she explains the process beforehand and clearly shares how to care for the skin afterward. Genuinely recommended 👍💫' },
+      { author: 'Shu-Fei Wu', url: siteConfig.googleReviewsUrl, quote: 'My first waxing experience was here. She carefully explained the process and what to keep in mind afterward—such thoughtful service 🥰 The sensation during treatment felt manageable, and I felt so happy once it was finished.' },
+    ],
+  },
+} as const;
+
 type ImageModule = { default: ImageMetadata };
 const caseSources = Object.entries(import.meta.glob<ImageModule>('../assets/cases/*.{avif,jpeg,jpg,png,webp,AVIF,JPEG,JPG,PNG,WEBP}', { eager: true }))
   .map(([path, module]) => ({ name: path.split('/').pop() ?? path, image: module.default }))
@@ -35,6 +87,7 @@ const imageAlt = (file: string, index: number, locale: 'zh' | 'en') => {
 <BaseLayout localizedMeta={{ zh: copy.zh.meta, en: copy.en.meta }}>
   {locales.map((locale) => {
     const item = copy[locale];
+    const reviews = reviewCopy[locale];
     return (
       <article class="cases-page" data-copy={locale} lang={locale === 'en' ? 'en' : undefined}>
         <header class="cases-hero page-shell" data-reveal="hero-copy">
@@ -57,6 +110,62 @@ const imageAlt = (file: string, index: number, locale: 'zh' | 'en') => {
               </figure>
             );
           }) : <p class="case-gallery__empty">{item.empty}</p>}
+        </section>
+
+        <section class="case-reviews" aria-labelledby={`case-reviews-title-${locale}`}>
+          <div class="case-reviews__inner page-shell">
+            <div class="case-reviews__heading" data-reveal="editorial-text">
+              <p class="eyebrow">{reviews.eyebrow}</p>
+              <h2 id={`case-reviews-title-${locale}`}>{reviews.title}</h2>
+            </div>
+            <div class="case-reviews__summary">
+              <div class="case-reviews__score-summary" data-reveal="editorial-text" aria-label={reviews.rating}>
+                <span class="case-reviews__score">{reviews.score}</span>
+                <span class="case-reviews__stars" aria-hidden="true">
+                  {[0, 1, 2, 3, 4].map(() => (
+                    <svg viewBox="0 0 20 20" width="17" height="17">
+                      <path d="m10 1.8 2.45 5.02 5.52.8-4 3.9.95 5.5L10 14.43l-4.92 2.59.94-5.5-4-3.9 5.53-.8L10 1.8Z" />
+                    </svg>
+                  ))}
+                </span>
+                <span class="case-reviews__rating-source">{reviews.ratingSource}</span>
+              </div>
+              <div class="case-reviews__list">
+                {reviews.reviews.map((review, index) => (
+                  <article class="case-review" data-reveal="image-soft" style={`--review-index: ${index % 3}`}>
+                    <div class="case-review__meta">
+                      <span class="case-review__meta-rating" aria-label={reviews.rating}>
+                        <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                        <span class="case-review__rating" aria-hidden="true">
+                          {[0, 1, 2, 3, 4].map(() => (
+                            <svg viewBox="0 0 20 20" width="12" height="12">
+                              <path d="m10 1.8 2.45 5.02 5.52.8-4 3.9.95 5.5L10 14.43l-4.92 2.59.94-5.5-4-3.9 5.53-.8L10 1.8Z" />
+                            </svg>
+                          ))}
+                        </span>
+                      </span>
+                      <span>{reviews.excerpt}</span>
+                    </div>
+                    <blockquote><p>“{review.quote}”</p></blockquote>
+                    <p class="case-review__author">
+                      <span class="case-review__avatar" aria-hidden="true">
+                        <svg viewBox="0 0 32 32" width="32" height="32">
+                          <circle cx="16" cy="11.5" r="5" />
+                          <path d="M7.5 27c.7-6 3.5-9 8.5-9s7.8 3 8.5 9" />
+                        </svg>
+                      </span>
+                      <span class="case-review__identity">
+                        <a href={review.url} target="_blank" rel="noreferrer">{review.author}</a>
+                      </span>
+                    </p>
+                  </article>
+                ))}
+              </div>
+              <a class="case-reviews__link" href={siteConfig.googleReviewsUrl} target="_blank" rel="noreferrer">
+                <span>{reviews.action}</span><span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
         </section>
       </article>
     );
